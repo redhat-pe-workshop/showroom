@@ -29,7 +29,9 @@
 ** xref:m5/module-05.1.adoc[5.1 Developer Activity: Merge request from feature-branch to main]
 ** xref:m5/module-05.2.adoc[5.2 Updates to Production Argo Manifests]
 
-* xref:m6/module-06.adoc[6. Establish Security and Compliance]
+* xref:m6/module-06.0.adoc[6. Establish Security and Compliance]
+** xref:m6/module-06.1.adoc[6. Red Hat Trusted Software Supply Chain]
+** xref:m6/module-06.2.adoc[6. Platform Engineer Activity: Enable Red Hat Dependency Analytics]
 
 * xref:env.adoc[My lab environment details]
 

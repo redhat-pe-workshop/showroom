@@ -1,0 +1,52 @@
+:imagesdir: ../../assets/images
+
+include::../style.adoc[]
+
+== Platform Engineer Activity: Add Red Hat Dependency Analytics to Pipelines
+
+Red Hat Trusted Profile Analyzer provides Red Hat Dependency Analytics, a set of tools and plugins for continuous integration pipelines and IDEs. It provides plug-ins for https://marketplace.visualstudio.com/items?itemName=redhat.fabric8-analytics[Visual Studio Code], https://plugins.jetbrains.com/plugin/12541-red-hat-dependency-analytics[JetBrains, and IntelliJ] and also plug-ins for https://plugins.jenkins.io/redhat-dependency-analytics/[Jenkins] and https://hub.tekton.dev/tekton/task/redhat-dependency-analytics[Tekton].
+
+In this section you'll learn how to run Red Hat Dependency Analytics as part of the Parasol Store build process.
+
+include::../login-pe.adoc[]
+
+=== Install and Enable the Red Hat Dependency Analytics task
+
+Tekton https://tekton.dev/docs/pipelines/[Pipelines use Tasks] to execute each step of a build. Red Hat Dependency Analytics includes a https://github.com/tektoncd/catalog/blob/main/task/redhat-dependency-analytics/0.2/redhat-dependency-analytics.yaml[pre-defined Tekton Task].
+
+. Visit the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store-build-manifests/-/tree/main/helm/parasol-store-build/templates?ref_type=heads[templates directory in the parasol-store-build-manifests] repository on GitLab.
+. Find the file named _task-rhda.yaml_ and open it.
+. Note that this file closely resembles the official https://github.com/tektoncd/catalog/blob/main/task/redhat-dependency-analytics/0.2/redhat-dependency-analytics.yaml[_redhat-dependency-analytics.yaml
+_] file, with minor changes for our needs.
+. Return to the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store-build-manifests/-/tree/main/helm/parasol-store-build/templates?ref_type=heads[templates directory].
+. Open the _pipeline-pr-open.yaml_ file, and uncomment the code between the `-- RHDA --` blocks to enable the *dependency-analytics* task.
++
+image:m6/rhda-pipeline-1.png[The first RHDA block to uncomment]
+. Scroll down and uncomment the second `-- RHDA --` block to attach the scan results to the pipeline output.
++
+image:m6/rhda-pipeline-2.png[The second RHDA block to uncomment]
+. Commit the changes with a message such as `feat: enable rhda`.
+
+=== Trigger a Build of Parasol Store
+
+. Visit the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store[parasol-store repository on GitLab].
+. Use the dropdown to select the branch named `my-feature-branch` that you created in a previous module.
+. Select the _README.md_ file and *Edit > Edit single file*.
+. Add the line `Testing RHDA` to the _README.md_.
++
+image:m6/readme-change.png[Updating the README with a simple change]
+. Commit the change with a message `chore: test rhda`.
+
+At this point your existing Merge Request from module 4 will be updated with this new change, and a new Pipeline Run is triggered.
+
+=== View the Build in {product_name_rhdh}
+
+. Return to the https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-store/ci[CI tab of the `parasol-store` Component] in {product_name_rhdh}.
+. Wait for the build to complete. The result should resemble the following image.
++
+image:m6/ci-tab-rhda.png[CI tab in {product_name_rhdh} for Parasol Store]
+. Note that a new *Vulnerabilities* column is present in the output. It lists the count of critical, high, medium, and low severity vulnerabilities detected by Red Hat Dependency Analytics.
+. Click on the `dependency-analytics` node in the Pipeline Run visualisation to view the logs from this Task.
++
+image:m6/rhda-task-logs.png[Logs for the dependency-analytics Task]
+. A detailed JSON report is included and cites https://osv.dev/[OSV (Open Source Vulnerabilities)] as the source of the information.
