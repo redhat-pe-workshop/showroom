@@ -9,7 +9,7 @@ Now that the import of User and Group entities, and authentication is enabled fo
 === Enable GitLab Entity Discovery and TechDocs
 
 Much like the Keycloak provider, you can use a https://backstage.io/docs/integrations/gitlab/discovery/[GitLab provider to discover^, window="console"] and import Entities from repositories in GitLab. This functionality is provided by the 	
-https://npmjs.com/package/@backstage/plugin-catalog-backend-module-gitlab/v/0.3.21[@backstage/plugin-catalog-backend-module-gitlab plugin^, window="console"]. You can see that this is a supported https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.3/html/dynamic_plugins_reference/index#con-preinstalled-dynamic-plugins[dynamic plugin in the {product_name_rhdh} documentation^, window="console"].
+https://npmjs.com/package/@backstage/plugin-catalog-backend-module-gitlab/v/0.3.21[@backstage/plugin-catalog-backend-module-gitlab plugin^, window="content"]. You can see that this is a supported https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.3/html/dynamic_plugins_reference/index#con-preinstalled-dynamic-plugins[dynamic plugin in the {product_name_rhdh} documentation^, window="content"].
 
 To install and configure this plugin:
 

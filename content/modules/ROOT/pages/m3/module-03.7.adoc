@@ -100,4 +100,4 @@ image:m3/developer-rbac-create.png[]
 
 So far in this workshop we assumed that only Platform Engineers can create Catalog Entities, but without configuring RBAC policies any user can create, edit, and delete Entities. Using RBAC allows you to configure read/write access as it suits your organization.
 
-For details on other ways to setup RBAC polices refer to the https://docs.redhat.com/en/documentation/red_hat_developer_hub/latest/html-single/authorization[Authorization guide in the {product_name_rhdh} documentation, window="content"].
+For details on other ways to setup RBAC polices refer to the https://docs.redhat.com/en/documentation/red_hat_developer_hub/latest/html-single/authorization[Authorization guide in the {product_name_rhdh} documentation^, window="content"].
