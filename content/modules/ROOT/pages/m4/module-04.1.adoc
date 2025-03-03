@@ -54,14 +54,14 @@ The necessary Catalog Info and TechDocs could be stored in one of two locations 
 
 The Parasol team chooses the second approach to avoid modifying existing source code. 
 
-* They create a dedicated repository called `envelope-parasol-catalog` containing a https://backstage.io/docs/features/software-catalog/descriptor-format/#kind-location[*Location*, window="content"] file. 
+* They create a dedicated repository called `all-location-parasol` containing a https://backstage.io/docs/features/software-catalog/descriptor-format/#kind-location[*Location*, window="content"] file. 
 * This `Location` entity serves as a central index, referencing all `catalog-info.yaml` files within the same repository. 
 +
 ``` yaml
 apiVersion: backstage.io/v1alpha1
 kind: Location
 metadata:
-  name: envelope-parasol-catalog
+  name: all-location-parasol
   description: A collection of Parasol components
 spec:
   type: url
@@ -70,7 +70,7 @@ spec:
 * Platform Engineers create Software Templates to import existing APIs, services and apps into {product_name_rhdh}
 * Developers can register their components by using these Software Templates. The template auto creates a `catalog-info.yaml` file and a skeleton TechDocs for each component. 
  
-{product_name_rhdh} can _auto-discover_ these *Location* files based on the file and repository names (e.g _envelope.yaml_ file in a folder which begins with the word _envelope_ ) across Git. You can also configure a  _schedule_ that defines how often you want it to run. For this workshop we have a super short frequency of 15 seconds. 
+{product_name_rhdh} can _auto-discover_ these *Location* files based on the file and repository names (e.g _all-location.yaml_ file in a folder which begins with the word _all-location_ ) across Git. You can also configure a  _schedule_ that defines how often you want it to run. For this workshop we have a super short frequency of 15 seconds. 
 
 But, it is good practice to limit auto-discovery to specific filenames and be judicious with the scheduling frequency  to ensure you don't hit API rate limits with your Git hosting provider. Click https://backstage.io/docs/integrations/github/discovery/[here^, window="content"] to know more about GitHub rate limits. 
 
@@ -79,8 +79,8 @@ But, it is good practice to limit auto-discovery to specific filenames and be ju
 envelop-catalog-entity:
     filters:
         branch: main
-    entityFilename: envelope.yaml
-    projectPattern: \b(envelope\w*)
+    entityFilename: all-location.yaml
+    projectPattern: \b(all-location\w*)
     schedule:
         frequency:
             seconds: 15

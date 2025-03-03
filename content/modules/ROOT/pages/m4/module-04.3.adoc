@@ -50,7 +50,7 @@ Provide information about the new component you are registering. Fill out the fo
 |====
 | *Field* | *Description* | *Value*
 | Component GitLab Organization | Keep default value| `parasol`
-| Component Repository name | Keep default value | `envelope-parasol-catalog` 
+| Component Repository name | Keep default value | `all-location-parasol` 
 | Component Name of API | Keep default value | `parasol-store-api`
 | System Name | System (auto-populated) | `system:default/parasol-system`
 | Owner | Choose from dropdown | `group:default/dev1`
@@ -74,7 +74,7 @@ image:m4/import-api-4.png[]
 +
 image:m4/api-template-merge-envelope.png[width=70%]
 
-. You can navigate to the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/envelope-parasol-catalog[envelope-parasol-catalog repo, window="gitlab"] to see that a new folder named `parasol-store-api` has been creates with a `catalog-info.yaml` and a docs folder for `TechDocs`.
+. You can navigate to the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/all-location-parasol[all-location-parasol repo, window="gitlab"] to see that a new folder named `parasol-store-api` has been creates with a `catalog-info.yaml` and a docs folder for `TechDocs`.
 +
 image:m4/parasol-store-api-gitlab.png[width=70%] 
 
@@ -124,7 +124,7 @@ Provide information about your existing app
 |====
 | *Field* | *Description* | *Value*
 | Component GitLab Organization | Keep default value | `parasol`
-| Component Repository Name | Keep default value | `envelope-parasol-catalog` 
+| Component Repository Name | Keep default value | `all-location-parasol` 
 | Component Name of the App | Keep default value | `parasol-store`
 | System name | System (auto-populated) | `system:default/parasol-system`
 | Owner | Keep default value | `group:default/dev1`
