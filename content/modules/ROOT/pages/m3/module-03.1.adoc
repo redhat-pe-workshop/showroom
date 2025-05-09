@@ -10,7 +10,7 @@ Let's explore the Template structure using a sample Template in the https://gitl
 
 === Template YAML Structure
 
-At a basic level, the Template is similar to the Component Entity you encountered in the _catalog-info.yaml_ in the prior module; resembling a Kubernetes Custom Resource Definition.
+At a basic level, the Template Entity is similar to the Component Entity you encountered in the _catalog-info.yaml_ in the prior module; resembling a Kubernetes Custom Resource.
 
 ```yaml
 apiVersion: scaffolder.backstage.io/v1beta3
@@ -30,15 +30,15 @@ spec:
   # other fields removed for brevity
 ```
 
-Where the Template Entity differs is that it contains additional fields:
+Where the Template Entity differs is that it contains additional fields. Let's examine each in more detail:
 
-* spec.parameters
-* spec.steps
-* spec.output
+* `spec.parameters` (Parameters)
+* `spec.steps` (Steps)
+* `spec.output` (Output)
 
 === Parameters
 
-The _spec.parameters_ field is used by platform engineers to enable developers to customise the output of the Template. Typically this customisation will be limited to parameters such as the name of the Component, Java package name, repository name, etc.
+The _spec.parameters_ field is used by platform engineers to enable developers to pass values (parameters) to the Template. Typically this will be parameters such as the name of the Component, a Java package name, repository name, etc.
 
 Here's an example of the parameters:
 
@@ -107,14 +107,18 @@ spec:
       catalogInfoPath: "/catalog-info.yaml"
 ```
 
+Notice how the `parameters` are referenced in the `steps`? Another point of note is that a `user` variable is available to access data related to the user that's using the Template, and subsequent `steps` can access `output` from prior steps. 
+
+The `output` values are documented on a per plugin basis. You can find the values for the specific version of your installed plugins by accessing the https://backstage-backstage.{openshift_cluster_ingress_domain}/create/actions[/create/actions^, window="rhdh"] endpoint on your {product_name_rhdh} instance.
+
 === Output
 
-The _spec.output_ makes use the variables that individual steps output to do display useful information such a 
+The _spec.output_ can use of the outputs from the `steps` to do display useful information such as: 
 
-* links to newly created Components
+* Links to newly created Components
 * Source Code Repository links
-* links to Git Merge Requests that are needed etc
-* markdown text blobs
+* Links to Git Merge Requests that are needed etc
+* Markdown text blobs
 
 ```yaml
   output:

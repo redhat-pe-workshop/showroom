@@ -5,20 +5,18 @@
 
 include::../style.adoc[]
 
-In this module, you will import an existing API and an existing Service using the Software Templates that were setup as a Platform Engineer in the previous section.
+In this module, you will import an existing API and an existing application (Component) using the Software Templates that were setup by the Platform Engineer in the previous section.
 
-IMPORTANT: Please make sure to log in as a *Developer* with `dev1/{common_password}`. If you are unsure, please refer to the below note.
+IMPORTANT: Please make sure to log in as a *Developer* with `dev1` / `{common_password}`.
 
-
-.Click here to view instructions to login as the Developer.
+.Click here to view instructions to login as a Developer.
 [%collapsible]
 ====
 include::../login-developer.adoc[]
 ====
 
-== Import parasol-store-api OpenAPI 
+== Import Parasol Store OpenAPI 
 
-. Access {product_name_rhdh} (https://backstage-backstage.{openshift_cluster_ingress_domain}[click here^, window="rhdh"]). If prompted login using `dev1/{common_password}`
 . Click on the *Create* menu on the left-hand navigation, and click the *Choose* button on the *Import Existing API* Template.
 +
 image:m4/import-api-template.png[width=30%]
@@ -90,9 +88,10 @@ image:m4/view-api.png[]
 
 image:m4/view-api-definition.png[]
 
-== Import parasol-store service
+== Import Parasol Store as a Component
 
-. From the *Create* menu on the left-hand of {product_name_rhdh}, click on the *Choose* button of the `Import Existing Application` template.
+. Click the *Create* icon in the top-menu of {product_name_rhdh}.
+. Click the *Choose* button of the `Import Existing Application` template.
 +
 image:m4/import-app-template.png[width=40%]
 

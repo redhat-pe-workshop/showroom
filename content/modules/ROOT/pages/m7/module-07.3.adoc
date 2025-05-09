@@ -21,9 +21,9 @@ image:m7/orchestrator-architecture-container-diagram.jpg[]
 
 As a use case for Developer Self-Service we are going to look at a pretty simple use case: a Developer can request a namespace on an OpenShift cluster. The namespace has limited resources, defined by resource quota and limit ranges. In our case, the namespaces come in two sizes, small and large. Large namespaces however require an approval. 
 
-IMPORTANT: Please make sure to log in as a *Platform Engineer* with `pe1/{common_password}`. If you are unsure, please refer to the below note.
+IMPORTANT: Please make sure to log in as a *Platform Engineer* with `pe1` / `{common_password}`. Refer to the below guide for assistance.
 
-.Click to know how to login as a Platform Engineer
+.Click to learn how to login as a Platform Engineer
 [%collapsible]
 ====
 include::../login-pe.adoc[]
@@ -102,7 +102,7 @@ The Software Templates to create namespaces are not meant to be used directly, b
 
 To demonstrate this:
 
-. Logout from your *pe1* user, and log back in as a developer with `dev1/{common_password}`. 
+. Logout from your *pe1* user, and log back in as a developer with `dev1` / `{common_password}`. 
 . Select the *Create...* item on the left-hand side menu.
 . Note that the `OpenShift Namespace Large Size` and the `OpenShift Namespace Small Size` Software Templates do not appear in the Software Template screen.
 +
@@ -159,7 +159,7 @@ image:m7/openshift-console-orchestrator-namespace.png[OpenShift Pods in orchestr
 ====
 * Navigate to {product_name_rhdh}'s https://backstage-backstage.{openshift_cluster_ingress_domain}/settings[Settings, window="rhdh"] screen and check the logged-in user's name under the Profile section. 
 * If you are not logged in as a Platform Engineer (`pe` user), Click on Sign Out.
-* Log in as `pe1/{common_password}`.
+* Log in as `pe1` / `{common_password}`.
 +
 image:m3/pe-signout.png[width=70%]
 ====
@@ -170,9 +170,9 @@ image:m7/orchestrator-workflow-deployed.png[]
 
 === Developer Activity: Execute the Serverless Workflow
 
-Log out of {product_name_rhdh} and log in again as a *Developer* with *dev1/{common_password}*.
+Log out of {product_name_rhdh} and log in again as a *Developer* with `dev1` / `{common_password}`*.
 
-.Click to know how to login as a Developer
+.Click to learn how to login as a Developer
 [%collapsible]
 ====
 include::../login-developer.adoc[]
@@ -233,7 +233,7 @@ image:m7/orchestrator-workflow-run-3.png[]
 image:m7/gitlab-issue-1.png[]
 . GitLab is not a ticketing system. To mimic the behaviour of a ticketing system, we use labels on the issue to mark the request as approved or denied.
 +
-.. Make sure you are logged in into GitLab as *pe1/{common_password}*.
+.. Make sure you are logged in into GitLab as `pe1` / `{common_password}`.
 .. Click on the *Edit* button next to *Labels* on the right.
 +
 image:m7/gitlab-issue-2.png[]

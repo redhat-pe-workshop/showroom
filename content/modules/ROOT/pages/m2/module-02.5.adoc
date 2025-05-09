@@ -17,7 +17,7 @@ In this activity you'll configure an OpenID Connect authentication provider - th
 
 === High-Level Workflow
 
-A complete set of documentation for configuring OpenID Connect authentication using https://access.redhat.com/products/red-hat-single-sign-on[Red Hat Single Sign-On^, window="content"] is available in the https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.3/html-single/authentication/index#enabling-authentication-with-rhsso[{product_name_rhdh} documentation^, window="content"]. 
+A complete set of documentation for configuring OpenID Connect authentication using https://access.redhat.com/products/red-hat-single-sign-on[Red Hat Single Sign-On^, window="content"] is available in the https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.5/html/authentication_in_red_hat_developer_hub/assembly-authenticating-with-rhbk[{product_name_rhdh} documentation^, window="content"]. 
 
 NOTE: Don't worry if some of the following bullet points are hard to understand upon first reading them. You'll be guided through each piece step-by-step.
 
