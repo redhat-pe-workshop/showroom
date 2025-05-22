@@ -37,7 +37,7 @@ Entities are typically imported and synchronized in one of three ways:
 . Manually registering entities via the UI by providing a link to a repository containing them.
 . Declaring them in the Backstage configuration.
 
-In all cases, the Entities will be synchronized on a regular schedule to ensure the information in the Software Catalog remains up to date. You'll utilize all three methods throughout this workshop. 
+In all cases, the Entities will be synchronized on a regular schedule to ensure the information in the Software Catalog remains up to date. You'll utilize all three methods throughout this workshop.
 
 If Entity information is stored in a Git repository, the convention is to place them in a _catalog-info.yaml_. This file will look similar to the following example:
 
@@ -79,7 +79,7 @@ Currently, running an instance and adding plugins to upstream Backstage requires
 . Edit the Backstage React and Node.js source code to load the plugin.
 . Build a container image and deploy it.
 
-The ability to load plugins dynamically is a value added feature included in {product_name_rhdh} that's currently unavailable in upstream Backstage - you can read more about it in the https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.3/html/introduction_to_plugins/index#con-rhdh-plugins[{product_name_rhdh} documentation^, window="content"]. The dynamic plugin support in {product_name_rhdh} means that new plugins can be installed without the need to edit code and rebuild the {product_name_rhdh} container image.
+The ability to load plugins dynamically is a value added feature included in {product_name_rhdh} that's currently unavailable in upstream Backstage - you can read more about it in the https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.5/html/introduction_to_plugins/index#con-rhdh-plugins[{product_name_rhdh} documentation^, window="content"]. The dynamic plugin support in {product_name_rhdh} means that new plugins can be installed without the need to edit code and rebuild the {product_name_rhdh} container image.
 
 You'll see dynamic plugins in action shortly.
 

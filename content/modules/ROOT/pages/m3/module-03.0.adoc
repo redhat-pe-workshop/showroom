@@ -15,14 +15,3 @@ Templates are defined using YAML, but are rendered as a rich form in the {produc
 * Create a Template (as the Platform Engineer)
 * Register the Template in the Software  (as the Platform  Engineer)
 * Create a new Component, GitLab Repository, and GitOps Application from the Template (as a Developer)
-
-== Workshop Environment
-
-Your workshop environment has been preconfigured with the following software and platform components:
-
-* Red Hat Build of Keycloak
-* OpenShift GitOps
-* OpenShift Pipelines
-* GitLab
-
-For the purposes of this workshop, we'll assume that your organization has standardized on these tools, and it's your objective as the platform engineer to integrate them with {product_name_rhdh}.
