@@ -4,8 +4,6 @@ include::../style.adoc[]
 
 == Platform Engineer Activity: Setup Role-Based Access Control
 
-NOTE: This is an Optional Module. You can choose to do this if time permits or this interests you.
-
 By setting up Role-Based Access Control (RBAC), the Platform Engineer can restrict the visibility of entities and availability of actions to subsets of users. It's possible to define roles with specific permissions and then assign those roles to the Users/Groups to meet the specific needs of your organization and teams. RBAC can be configured via the Red Hat Developer Hub UI and REST API, or by using configuration files. 
 
 In this module you will 
@@ -42,16 +40,16 @@ As with other {product_name_rhdh} plugins, enabling RBAC involves modifying the 
 
 . Access the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config/-/blob/main/values.yaml[rhdh/developer-hub-config configuration on GitLab, window="gitlab"].
 . Select *Edit > Edit single file*. When prompted, login as `pe1` / `{common_password}`.
-. There are *3 sections* in the {product_name_rhdh} configuration that need to be modified. All of them are under `-- RBAC --` blocks. You can use `CMD + /` or `CTRL + /` keys to uncomment the blocks.
+. There are *2 sections* in the {product_name_rhdh} configuration that need to be modified. All of them are under `-- RBAC --` blocks. You can use `CMD + /` or `CTRL + /` keys to uncomment the blocks.
 .. Look for the *first block*; This enables the `backstage-community-plugin-rbac` dynamic plugin which allows you to assign permissions to users and groups; highlight this block and uncomment it.
 +
 image:m3/rbac-block1.png[width=60%]
 .. The *second block* defines RBAC admin users and references the file contained in ConfigMap explained in the previous section; highlight and uncomment it.
 +
 image:m3/rbac-block2.png[width=60%]
-.. The *final block* sets up the volumes and mounts the file from the ConfigMap to enable the RBAC configuration. This section is a bit long, so the screenshot is edited for brevity; highlight the whole section and uncomment it.
-+
-image:m3/rbac-block3.png[width=70%]
+// .. The *final block* sets up the volumes and mounts the file from the ConfigMap to enable the RBAC configuration. This section is a bit long, so the screenshot is edited for brevity; highlight the whole section and uncomment it.
+// +
+// image:m3/rbac-block3.png[width=70%]
 .. Scroll down and enter a commit message: `feat: enable RBAC` and click the *Commit* button.
 . Visit the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications[`backstage` Application in OpenShift GitOps^, window="argo"] (login using `admin`/`{openshift_gitops_password}`) and click *Refresh*. Wait until it reports a `Healthy` status.
 
