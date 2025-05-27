@@ -22,6 +22,6 @@ image:m2/backstage-guest-signin.png[{product_name_rhdh} deployment on OpenShift,
 
 WARNING: The Guest sign-in option is currently enabled, but you'll configure a production-ready sign-in option based on OpenID Connect shortly. The Guest sign-in option is only meant for development and testing purposes.
 
-Visit the *Catalog* using the link in the menu on the left-hand side of the {product_name_rhdh} UI. You'll find that it's empty, and that the *Kind* dropdown doesn't provide any options - let's fix that!
+Visit the *Catalog* using the link in the menu on the left-hand side of the {product_name_rhdh} UI. You'll find that it's empty, and that the *Kind* dropdown doesn't provide any options - an empty catalog is no good!
 
 image:m2/rhdh-empty-catalog.png[Empty {product_name_rhdh} Catalog]

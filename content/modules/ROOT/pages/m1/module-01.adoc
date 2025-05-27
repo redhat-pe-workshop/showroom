@@ -41,8 +41,6 @@ In this workshop, you will walk through in the steps of the platform engineers
 * gain feedback from developers through a test-drive
 * onboard existing applications for a single-pane-of-glass approach
 * setup workflows - from laptop to Production
-* and a touch of Security as well
 
 All of this boiling down to _how to setup Development Teams up for success in a cloud native, AI infused world_!
 
-== Conclusion

@@ -4,12 +4,12 @@
 
 include::../style.adoc[]
 
-Now that the import of User and Group entities, and authentication is enabled for those same users, let's focus on importing more Entities from your Git repositories.
+Now that the import of User and Group entities and authentication is enabled for those same users, let's focus on importing more Entities from your Git repositories. Having a rich and complete Software Catalog increases the value of the your IDP.
 
 === Enable GitLab Entity Discovery and TechDocs
 
 Much like the Keycloak provider, you can use a https://backstage.io/docs/integrations/gitlab/discovery/[GitLab provider to discover^, window="console"] and import Entities from repositories in GitLab. This functionality is provided by the 	
-https://npmjs.com/package/@backstage/plugin-catalog-backend-module-gitlab/v/0.3.21[@backstage/plugin-catalog-backend-module-gitlab plugin^, window="content"]. You can see that this is a supported https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.3/html/dynamic_plugins_reference/index#con-preinstalled-dynamic-plugins[dynamic plugin in the {product_name_rhdh} documentation^, window="content"].
+https://npmjs.com/package/@backstage/plugin-catalog-backend-module-gitlab/v/0.3.21[@backstage/plugin-catalog-backend-module-gitlab plugin^, window="content"]. You can see that this is a supported https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.5/html/dynamic_plugins_reference/index#con-preinstalled-dynamic-plugins[dynamic plugin in the {product_name_rhdh} documentation^, window="content"].
 
 To install and configure this plugin:
 
@@ -33,7 +33,7 @@ image:m2/gitlab-catalog-provider.png[GitLab Catalog Provider, width=70%]
 . Commit your changes with the message `feat: add gitlab autodiscovery`.
 // +
 // image:m2/gitlab-discovery.png[GitLab code editor showing catalog providers configuration for {product_name_rhdh}]
-. Click the *Refresh* button on the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications[`backstage` Application in OpenShift GitOps^, window="argo"].
+. Click the *Refresh* button on the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications[`backstage` Application in OpenShift GitOps^, window="argo"] (login as `admin` / `{openshift_gitops_password}`).
 
 === Verify GitLab Entity Discovery is Active
 

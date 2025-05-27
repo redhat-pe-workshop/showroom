@@ -7,11 +7,13 @@ include::../style.adoc[]
 
 === Deploying {product_name_rhdh}
 
-Platform Engineers can deploy {product_name_rhdh} on OpenShift using the Operator or Helm Chart. Both of these installation methods are outlined in the https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.3/html/installing_red_hat_developer_hub_on_openshift_container_platform/index#assembly-install-rhdh-ocp-helm[{product_name_rhdh} documentation^, window="content"]. In this lab you'll use the Helm Chart to deploy and manage your instance of {product_name_rhdh}. The source code for this Helm Chart can be found at https://github.com/openshift-helm-charts/charts/tree/main/charts/redhat/redhat/redhat-developer-hub[openshift-helm-charts repository on GitHub^, window="content"].
+Platform Engineers can deploy {product_name_rhdh} on OpenShift using the Operator or Helm Chart. Both of these installation methods are outlined in the https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.5/html/installing_red_hat_developer_hub_on_openshift_container_platform/index#assembly-install-rhdh-ocp-helm[{product_name_rhdh} documentation^, window="content"]. In this lab you'll use the Helm Chart to deploy and manage your instance of {product_name_rhdh}. The source code for this Helm Chart can be found at https://github.com/openshift-helm-charts/charts/tree/main/charts/redhat/redhat/redhat-developer-hub[openshift-helm-charts repository on GitHub^, window="content"].
 
 === Using GitOps to Manage {product_name_rhdh}
 
 The instance of OpenShift Container Platform used in this workshop environment has been preconfigured with OpenShift GitOps (Argo CD). Your deployment of {product_name_rhdh} is kept up to date using a GitOps workflow, as illustrated below.
+
+NOTE: https://www.redhat.com/en/topics/devops/what-is-gitops[GitOps] is the practice of automating application deployment using Git repositories as the "source of truth" for an https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac[infrastructure as code (IaC)] for the deployment configuration. The Git repository contains declaritive configuration, typically in YAML format, that describes the desired deployment state and a GitOps tool such as OpenShift GitOps ensures the application is deployed according to the configuration. Drifts from configuration can automatically be patched. 
 
 // TODO: replace with product icons
 
@@ -30,7 +32,7 @@ image:m2/gitops-sources.png[GitOps Sources for the Backstage Application]
 Let's verify that changes to the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config/-/blob/main/values.yaml[values.yaml file in GitLab, window="gitlab"] actually get rolled out by OpenShift GitOps.
 
 . Open your https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config/-/blob/main/values.yaml[values.yaml file, window="gitlab"].
-. Select *Edit > Edit single file*. When prompted, login as a Platform Engineer with `pe1/{common_password}`
+. Select *Edit > Edit single file*. When prompted, login as a Platform Engineer with `pe1` / `{common_password}`
 . Find the YAML surrounded by `--- APP TITLE ---` and uncomment it by highlighting it and pressing `CMD + /` or `CTRL + /`.
 +
 image:m2/gitlab-change-app-title.png[Customizing the Title]
@@ -40,7 +42,7 @@ image:m2/gitlab-change-app-title.png[Customizing the Title]
 
 *Verify update to {product_name_rhdh}'s Custom Title*
 
-Let's wait for the new deployment of {product_name_rhdh} to complete to check if the custom title reflects as it should on {product_name_rhdh}
+Let's ensure that a new deployment of {product_name_rhdh} is triggered and your new title is applied.
 
 . Return to the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications/openshift-gitops/backstage[backstage Application in Argo CD, window="argo"]. Depending on your timing, it might already be progressing the latest sync, but if not, click the *Refresh* button. When the sync is in progress, you'll see a new Pod starting - this Pod will run the latest version of your configuration.
 +

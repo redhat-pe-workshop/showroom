@@ -6,7 +6,7 @@ include::../style.adoc[]
 
 In this module, as a Developer you are tasked to make change to an existing service - the `parasol-store` service. You will create a feature branch of the repository and then work in an ephemeral environment that allows you to work independently without impacting other developers in your team. Once you are ready with the changes, you can raise a merge request to push your changes to main branch, and there progressing the changes to production deployment
 
-IMPORTANT: Please make sure you are logged in as a *Developer* with `dev1/{common_password}`. If you are unsure how to, please refer to the below note.
+IMPORTANT: Please make sure you are logged in as a *Developer* with `dev1` / `{common_password}`.
 
 .Click here to view instructions to login as the Developer.
 [%collapsible]
@@ -15,28 +15,29 @@ include::../login-developer.adoc[]
 ====
 
 
-== Create a feature branch
+== Create a Feature Branch
 
 . Click https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store[here to access the parasol-store^, window="gitlab"] repository.
 . Click on the *(+)* button as shown in the screenshot below, and click on *New branch* menu
 +
 image:m4/create-branch.png[width=65%]
 
-. Name the branch as `my-feature-branch` so as to make it easier to follow the rest of the instructions.
+. Name the branch `my-feature-branch`. The rest of the instructions assume this is the branch name.
 +
 image:m4/create-branch-name.png[width=70%]
 
 == Onboard the Feature Branch using template
 
-. Visit your instance of https://backstage-backstage.{openshift_cluster_ingress_domain}[{product_name_rhdh}^, window="rhdh"]. If prompted, login as `dev1/{common_password}`.
-. Choose the *Create* side menu, and you will see the *Parasol Store Development* template. Click on *Choose*.
+. Visit your instance of https://backstage-backstage.{openshift_cluster_ingress_domain}[{product_name_rhdh}^, window="rhdh"]. If prompted, login as `dev1` / `{common_password}`.
+. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Create* menu and view the available templates.
+. Click *Choose* button on the *Parasol Store Development* template. 
 +
 image:m4/choose-parasol-store-template.png[width=30%]
 
 . In *Step 1: Provide Information for the sandbox deployment*, enter the feature branch name `my-feature-branch` or the name you have picked for your branch.
 +
 image:m4/choose-parasol-store-template-step1.png[]
-. In *Step 2: Provide database information*. Keep all the fields as they are - no need to make changes. The parameters are already set based on the OpenShift Service names from the existing deployments of the application.
+. In *Step 2: Provide database information*. Keep all the fields as they are - no need to make changes.
 +
 image:m4/choose-parasol-store-template-step2.png[]
 
@@ -76,15 +77,15 @@ image:m4/parasol-branch-first-pipeline-success.png[]
 
 [NOTE]
 ====
-Login to OpenShift using the `htpasswd` provider and the credentials `admin` / `{common_password}`.
+Login to OpenShift using the credentials `admin` / `{common_password}`.
 ====
 
 image:m4/parasol-branch-deployment1.png[]
 
 
-== Add features to the application
+== Add Features to the Application
 
-. Click on the *< > View Source* button on the {product_name_rhdh} https://backstage-backstage.{openshift_cluster_ingress_domain}[Component Overview page^, window="rhdh"] to access the source repository of `parasol-store`.
+. Click on the *< > View Source* button on the {product_name_rhdh} https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-store-my-feature-branch[Component Overview page^, window="rhdh"] to access the source code repository.
 +
 image:m4/parasol-branch-component-overview.png[]
 
@@ -92,9 +93,9 @@ image:m4/parasol-branch-component-overview.png[]
 +
 image:m4/parasol-switchbranch.png[width=60%]
 
-. The feature request is to provide a REST API call endpoint that returns the total number of available products. For the purposes of this workshop, we will (once again) uncomment some code.
+. The feature request is to provide a REST API call endpoint that returns the total number of available products. For the purposes of this workshop, you will uncomment a block of code.
 . Changes are needed in the `parasol-store> src> main> java> org> parasol> retail> store> catalog> rest> CatalogResource.java` file. You can click https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store/-/blob/my-feature-branch/src/main/java/org/parasol/retail/store/catalog/rest/CatalogResource.java[here^, window="gitlab"] to directly access this file on GitLab.
-. Select *Edit > Edit single file*. If prompted, login with `dev1/{common_password}`.
+. Select *Edit > Edit single file*. If prompted, login as `dev1` / `{common_password}`.
 +
 image:m4/parasol-webide.png[]
 
@@ -107,7 +108,7 @@ image:m4/parasol-commented-prodcount.png[width=85%]
 image:m4/parasol-un-commented-prodcount.png[]
 
 . Add a Commit Message `Chore: Add ProdCount REST API call` at the bottom of the page; make sure the Target Branch is `my-feature-branch`; Click *Commit changes*
-. You can now close the GitLab browser.
+. You can now close the GitLab browser tab.
 
 == View `parasol-store` component on {product_name_rhdh}
 
@@ -120,11 +121,10 @@ image:m4/parasol-innerloop-pipeline1.png[width=80%]
 image:m4/parasol-innerloop-pipeline-ok.png[width=80%]
 +
 NOTE: The first pipeline was triggered when you created this branch using the Software Template, and the next is by the Git commit.
-. Once you're happy with the changes, you can proceed to create a merge request to the main branch.
 
 
 == Conclusion
 
-In this module you learnt how Software Templates and plugins can accelerate developer productivity. With {product_name_rhdh}, developers have access to all the necessary tools via a single pane of glass, reducing cognitive load.
+In this module you learned how Software Templates and plugins can accelerate developer productivity. With {product_name_rhdh}, developers have access to all the necessary tools via a single pane of glass, reducing cognitive load.
 
 This marks the end of the inner loop within the ephemeral development environment. In the next section, you will create a merge request to the main branch to initiate the outer loop.

@@ -17,7 +17,7 @@ While OpenShift has a built-in image registry, there are various reasons we're u
 * Better suited for multi-tenant and multi-cluster environments.
 
 
-IMPORTANT: Please make sure to log in as a *Developer* with *dev1/{common_password}* as described in the next step to avoid errors while navigating this workshop :)
+IMPORTANT: Please make sure to log in to {product_name_rhdh} as a *Developer* with *dev1/{common_password}* as described in the next step to avoid errors.
 
 include::../login-developer.adoc[]
 
@@ -33,7 +33,7 @@ image:m3/quay-create-account-link.png[Creating a Quay Account, width="60%"]
 . Enter the following information:
   * Username: `dev1`
   * Email: `dev1@rhdh.com`
-  * Password: {common_password}
+  * Password: `{common_password}`
 +
 image:m3/quay-create-account.png[Creating a Quay Account]
 . Click *Create Account*.

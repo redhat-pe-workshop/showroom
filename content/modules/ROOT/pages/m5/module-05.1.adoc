@@ -7,7 +7,7 @@ include::../style.adoc[]
 
 
 . Navigate to the https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-store-my-feature-branch[feature branch component, window="rhdh"] you had created. If prompted, login as `dev1` / `{common_password}`.
-. Click on the *View Source* link to access the git repo of this component.
+. Click on the *View Source* link to access the git repo of this Component.
 . You will see an alert asking you to create a *merge request*.
 +
 image:m5/view-merge-alert.png[]
@@ -16,7 +16,7 @@ NOTE: If you don't see this alert, you can access this via the *Code -> Merge Re
 . In the *New merge request* page, create a merge request by clicking on the *Create merge request* button at the bottom of the page.
 +
 image:m5/create-merge-alert.png[width=60%]
-. Since this merge request is to the `parasol-store` component, the `parasol-store-build-pr-open` pipeline gets triggered and can be viewed in the https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-store/ci[`parasol-store` component, window="rhdh"].
+. Since this merge request is to the `parasol-store` Component, the `parasol-store-build-pr-open` pipeline gets triggered and can be viewed in the https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-store/ci[`parasol-store` component, window="rhdh"].
 +
 image:m5/parasol-store-pr-open-pipeline-start.png[]
 . Once the pipeline completes, make note of the final task `gitlab-update-task`, which updates GitLab's Merge Request with the status of the pipeline.
@@ -64,12 +64,12 @@ Let us now see what happened to the Dev and Staging Argo CD manifests updates.
 . In {product_name_rhdh}, access the CD tab of the https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-store/cd[parasol-store component^, window="rhdh"].
 +
 image:m5/parasol-store-argo.png[]
-. Click on the outgoing-arrow icon next to *parasol-store-dev* and *parasol-store-staging*. Login as (`admin` / `{common_password}`).
+. Click on the outgoing-arrow icon next to *parasol-store-dev* to access the *rhdh-gitops* instance of Argo CD that's used to manage deployed applications. Login as `admin` / `{common_password}`.
 +
 NOTE: This instance of Argo CD/OpenShift GitOps is meant only for applications. The other Argo CD you have accessed thus far is for configuring {product_name_rhdh} and the platform related Argo CD applications.
 . You will note that both *dev* and *staging* are tagged by the Tekton Pipeline to the same image tag. Hover the pointer over the Last Sync comment as shown in the screenshots below. 
 +
-NOTE: You may need to *REFRESH* the Argo CD apps if you don't see the updates immediately.
+NOTE: You may need to click the *REFRESH* button on the Argo CD Applications if you don't see the updates reflected after a few seconds.
 
 .. Dev Argo CD: parasol-store-dev
 +

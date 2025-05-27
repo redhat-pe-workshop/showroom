@@ -6,9 +6,9 @@ include::../style.adoc[]
 
 == Overview
 
-Organizations need to provide a pathway for teams to import their existing services, APIs and resources to {product_name_rhdh}. This module focuses on an opinionated way to onboard existing projects and applications so that the developer teams can discover them through the internal developer portal. 
+Organizations need to provide a pathway for teams to import their existing services, APIs and resources to {product_name_rhdh}. This module focuses on an opinionated way to onboard existing projects and applications so that developer teams can discover them through the internal developer portal. 
 
-Platform Engineering teams can create Software Templates that enable teams to import their apps into {product_name_rhdh}. The Softwares Template can gather details about the component's repository, documentation, dependencies, CI/CD, and various other details which allows development teams to accelerate their inner-loop of developing the assigned features and tasks.
+Platform Engineering teams can create Software Templates that enable teams to import their apps into {product_name_rhdh}. The Software Template can gather details about the component's repository, documentation, dependencies, CI/CD, and various other details which allows development teams to accelerate their inner-loop of developing the assigned features and tasks.
 
 == Module Objectives
 

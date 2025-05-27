@@ -5,21 +5,19 @@
 
 include::../style.adoc[]
 
-In this module, you will import an existing API and an existing Service using the Software Templates that were setup as a Platform Engineer in the previous section.
+In this module, you will import an existing API and an existing application (Component) using the Software Templates that were setup by the Platform Engineer in the previous section.
 
-IMPORTANT: Please make sure to log in as a *Developer* with `dev1/{common_password}`. If you are unsure, please refer to the below note.
+IMPORTANT: Please make sure to log in as a *Developer* with `dev1` / `{common_password}`.
 
-
-.Click here to view instructions to login as the Developer.
+.Click here to view instructions to login as a Developer.
 [%collapsible]
 ====
 include::../login-developer.adoc[]
 ====
 
-== Import parasol-store-api OpenAPI 
+== Import Parasol Store OpenAPI 
 
-. Access {product_name_rhdh} (https://backstage-backstage.{openshift_cluster_ingress_domain}[click here^, window="rhdh"]). If prompted login using `dev1/{common_password}`
-. Click on the *Create* menu on the left-hand navigation, and click the *Choose* button on the *Import Existing API* Template.
+. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Create* menu, and click the *Choose* button on the *Import Existing API* Template.
 +
 image:m4/import-api-template.png[width=30%]
 . You will be presented with the Software Template wizard. +
@@ -52,8 +50,8 @@ Provide information about the new component you are registering. Fill out the fo
 | Component GitLab Organization | Keep default value| `parasol`
 | Component Repository name | Keep default value | `all-location-parasol` 
 | Component Name of API | Keep default value | `parasol-store-api`
-| System Name | System (auto-populated) | `system:default/parasol-system`
-| Owner | Choose from dropdown | `user:default/dev1`
+| System Name | Choose from dropdown | `system:default/parasol-system`
+| Owner | Keep default value | `user:default/dev1`
 | A Short Description Of This Component |Enter a suitable description | `Open API specification for the parasol-store application`
 | Lifecycle | Enter value. Can be any lifecycle value, but take great care to establish a proper taxonomy for these. (Well-known values `experimental`, `production` and `deprecated`) | `production` 
 |====
@@ -90,9 +88,10 @@ image:m4/view-api.png[]
 
 image:m4/view-api-definition.png[]
 
-== Import parasol-store service
+== Import Parasol Store as a Component
 
-. From the *Create* menu on the left-hand of {product_name_rhdh}, click on the *Choose* button of the `Import Existing Application` template.
+. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Create* menu of {product_name_rhdh}.
+. Click the *Choose* button of the `Import Existing Application` template.
 +
 image:m4/import-app-template.png[width=40%]
 
@@ -100,7 +99,7 @@ image:m4/import-app-template.png[width=40%]
 +
 [NOTE]
 ====
-A number of these fields have been prepopulated with default values for convenience. In reality, developers will need provide almost all of the values that are needed to import existing apps/APIs.
+A number of these fields have been prepopulated with default values for convenience. In reality, developers will provide almost all of the values that are needed to import existing apps/APIs.
 ====
 
 . *Step 1: Information about your existing application*: +

@@ -6,7 +6,9 @@ include::../style.adoc[]
 
 In xref:m2/module-02.1.adoc[module 2.1] you learned that the Software Catalog contains Entities, and saw a sample `appConfig` that contained a `catalog.locations` configuration. That example configuration imported entities from a file located in a hardcoded Git repository. This pattern is known as a https://backstage.io/docs/features/software-catalog/#static-catalog-configuration[static configuration^, window="content"]. {product_name_rhdh} will occasionally poll for updates to the specified file locations and update the Entities in the Software Catalog accordingly.
 
-An option for dynamically importing and synchronizing Entities is via _providers_. Providers are typically provided by way of plugins, and are configured using the `catalog.providers` entry in the `appConfig`. Let's use the Keycloak plugin to synchronize Users and Groups to your Software Catalog.
+An option for dynamically importing and synchronizing Entities is via _providers_. Providers are added to {product_name_rhdh} using plugins, and are configured using the `catalog.providers` entry in the `appConfig`. Let's use the Keycloak plugin to synchronize Users and Groups to your Software Catalog.
+
+NOTE: Synchronizing Users and Groups to your Software Catalog is important for two reasons. Doing so will enable developers and platform engineers to associate Users and Groups with other Entities in the Software Catalog - very useful for finding out which individual or team is responsible for a particular microservice or database, for example. Secondly, only users that have a corresponding User Entity in the Software Catalog can successfully login to {product_name_rhdh}.
 
 . View your https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config/-/blob/main/values.yaml[values.yaml file in the developer-hub-config repository^, window="gitlab"].
 . Select **Edit > Edit single file**. When prompted, login as `pe1` / `{common_password}`.
@@ -17,7 +19,7 @@ image:m2/keycloak-dynamic-plugin.png[width=60%]
 +
 image:m2/keycloak-commented-block.png[width=70%]
 
-This block of configuration instructs the Keycloak provider to synchronize *Users and Groups* from the specified Keycloak Realm to the Software Catalog. Doing so will enable developers and platform engineers to associate Users and Groups with Entities in the Software Catalog - very useful for finding out which individual or team is responsible for a particular microservice or database, for example.
+This block of configuration instructs the Keycloak provider to synchronize *Users and Groups* from the specified Keycloak Realm to the Software Catalog.
 
 . Scroll down and enter a commit message: `feat: enable the keycloak catalog provider`
 . Click the *Commit* button.

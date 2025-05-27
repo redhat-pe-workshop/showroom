@@ -37,5 +37,5 @@ After completing this workshop you'll:
 
 The following image is a journey map of the workshop modules. The modules must be executed sequentially.
 
-image:common/pew-journey-map.png[]
+image:common/pew-journey-map.png[width=80%]
 

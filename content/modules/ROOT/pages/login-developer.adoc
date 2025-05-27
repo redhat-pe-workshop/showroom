@@ -2,15 +2,13 @@
 
 * You will perform this activity as a Developer. 
 * Logout from https://backstage-backstage.{openshift_cluster_ingress_domain}[{product_name_rhdh}^, window="rhdh"]
-** Navigate to the *Settings* menu at the bottom right side of {product_name_rhdh} and click on the kebab menu in the *Profile* card
-+
-image::common/rhdh-settings.png[Settings of {product_name_rhdh}]
-** Sign out of {product_name_rhdh} from the Settings section as shown in the screenshot below.
+** Click the dropdown in the top-right of {product_name_rhdh}, then click on the **Logout** link.
 +
 image::common/rhdh-sign-out.png[Signing out of {product_name_rhdh}]
+
 * Logout from https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^, window="gitlab"]
 ** Click on the Profile icon, and Sign out from the dropdown as shown in the screenshot below.
 +
-image::common/gitlab-sign-out.png[Signing out of {product_name_rhdh}]
+image::common/gitlab-sign-out.png[Signing out of GitLab]
 
-* Login back as a *Developer* to to *{product_name_rhdh}* and *GitLab* using the credentials `dev1/{common_password}`
+* Login back as a *Developer* to to *{product_name_rhdh}* and *GitLab* using the credentials `dev1` / `{common_password}`
