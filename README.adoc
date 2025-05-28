@@ -1,6 +1,5 @@
 :imagesdir: ../assets/images
 
-
 = Platform Engineering Workshop
 
 == Introduction
@@ -23,5 +22,3 @@ Development Teams who are in charge of creating a software solution and empower 
 * How to design a Thinnest Viable Platform (TVP) based on the needs of ALL development teams in the organization and ensure they are highly productive as possible
 * Constantly assessing the investment into their own IDP and understand how they can enhance and convince ALL development teams to start adopting
 * See how Red Hat can help as a partner in your Platform Engineering journey
-
-

@@ -20,6 +20,7 @@ To begin, create create the `cluster-monitoring-config` ConfigMap object:
 . Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar of OpenShift Console to create a new resource.
 +
 image:m7/create-yaml.png[] 
+
 . In the YAML editor, input the following ConfigMap. Setting the `enableUserWorkload` parameter to `true`, enables monitoring of user-defined projects in the OpenShift cluster.
 +
 [.console-input]
