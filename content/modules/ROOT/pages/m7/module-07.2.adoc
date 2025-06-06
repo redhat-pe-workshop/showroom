@@ -12,11 +12,12 @@ As a Platform Engineer and Red Hat Developer Hub administrator, you can track us
 
 In OpenShift Container Platform, metrics are exposed through an HTTP service endpoint under the `/metrics` path. You can create a ServiceMonitor custom resource (CR) to scrape metrics from a service endpoint in a user-defined project.
 
-=== Set up monitoring for user-defined projects 
+=== Set up monitoring for user-defined projects
 
 To begin, create create the `cluster-monitoring-config` ConfigMap object:
 
 . Navigate to the https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/backstage?view=graph[OpenShift console^, window="console"]. Login as *admin/{common_password}* if prompted.
+
 . Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar of OpenShift Console to create a new resource.
 +
 image:m7/create-yaml.png[] 
@@ -37,7 +38,7 @@ data:
 ----
 . Click the *Save* button to create this ConfigMap.
 +
-image:m7/save-user-workload.png[] 
+image:m7/save-user-workload.png[]
 
 
 === Enable metrics monitoring on OpenShift
@@ -60,9 +61,9 @@ To apply the changes
 . Navigate to view the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications[`backstage` Argo CD Application in OpenShift GitOps^, window="argo"]. Login as `admin/{openshift_gitops_password}` if prompted.
 . Click the *Refresh* button for the `backstage` Argo CD application.
 . Wait until the Application status is *Healthy*.
-. A new `servicemonitor` for {product_name_rhdh} should now be created. You can verify this by viewing the `backstage` Argo CD application. 
+. A new `servicemonitor` for {product_name_rhdh} should now be created. You can verify this by viewing the `backstage` Argo CD application.
 +
-image:m7/new-service-monitor.png[] 
+image:m7/new-service-monitor.png[]
 
 
 === View {product_name_rhdh} metrics on OpenShift
@@ -72,24 +73,51 @@ You can view the {product_name_rhdh}'s metrics  from the Developer perspective o
 . Visit the https://console-openshift-console.{openshift_cluster_ingress_domain}/dev-monitoring/ns/backstage[metrics^, window="console"] page to view this *Observe* menu on OpenShift
 . Click the Metrics tab, and from the `Select query` drop down, choose `Custom query`
 +
-image:m7/select-custom-query.png[] 
+image:m7/select-custom-query.png[]
 . You can query a number of parameters by entering a query into the the `Expression` text area,
 +
-image::m7/expression-area.png[] 
-.. Enter `catalog_entities_count` into the textarea and hit `Enter` to view metrics such as how many components, users, templates etc are present in the 
+image::m7/expression-area.png[]
+.. Enter `catalog_entities_count` into the textarea and hit `Enter` to view metrics such as how many components, users, templates etc are present in the
 +
-image::m7/catalog-entities-count.png[] 
+image::m7/catalog-entities-count.png[]
 .. `scaffolder_task_count` results in the count and user details
 +
-image::m7/scaffolder-task-count.png[] 
+image::m7/scaffolder-task-count.png[]
 .. Other examples are `scaffolder_step_count`, `scaffolder_task_count` can yield interesting info about the template usage as well. The below screenshot shows output for `scaffolder_step_count`
 +
-image::m7/scaffolder-step-count.png[]  
+image::m7/scaffolder-step-count.png[]
 
 . You can leverage the metrics to build custom Grafana dashboards to visualise them as well.
 
+== Adoption Insights Plugin
 
-== Audit logging and Telemetry 
+The Adoption Insights plugin provides a dashboard that displays the number of users, the number of active users, and the number of new users. It also provides a list of the most popular components and systems in your catalog.
+
+To enable the Adoption Insights plugin, you need to add the following configuration in your https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config/-/blob/main/values.yaml[values.yaml file in the developer-hub-config repository^, window="gitlab"].
+
+1. Uncomment the `--- ADOPTION_INSIGHTS_PLUGIN ---` sections in the `dynamic.plugins` section of the YAML file.
++
+image:m7/adoption-insights-plugin-commented-block.png[width=100%]
+
+2. Uncomment the `--- ADOPTION_INSIGHTS_PLUGIN ---` sections in the `upstream.appConfig` section of the YAML file.
++
+image:m7/adoption-insights-plugin-config-commented-block.png[width=50%]
+
+3. Scroll down and enter a commit message `feat: enable adoption insights plugin`.
+
+4. Click the *Commit changes* button.
+
+5. Click the *Refresh* button on the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications[`backstage` Application in OpenShift GitOps^, window="argo"].
+
+Your changes will be rolled out to the `backstage` Argo CD application. Once the application is in a *Healthy* state, you can view the Adoption Insights plugin by navigating to the `Administration -> Adoption Insights` menu in your {product_name_rhdh} instance.
+
+image:m7/adoption-insights-plugin-dashboard.png[width=100%]
+
+Nice work! You can check the adoption of your {product_name_rhdh} instance.
+
+
+
+== Audit logging and Telemetry
 
 You can monitor user activities, system events, and data changes with Developer Hub audit logs. Telemetry data collection supports collecting and analyzing telemetry data to enhance {product_name_rhdh} experience.
 
