@@ -8,8 +8,8 @@ Now that the import of User and Group entities and authentication is enabled for
 
 === Enable GitLab Entity Discovery and TechDocs
 
-Much like the Keycloak provider, you can use a https://backstage.io/docs/integrations/gitlab/discovery/[GitLab provider to discover^, window="console"] and import Entities from repositories in GitLab. This functionality is provided by the 	
-https://npmjs.com/package/@backstage/plugin-catalog-backend-module-gitlab/v/0.3.21[@backstage/plugin-catalog-backend-module-gitlab plugin^, window="content"]. You can see that this is a supported https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.5/html/dynamic_plugins_reference/index#con-preinstalled-dynamic-plugins[dynamic plugin in the {product_name_rhdh} documentation^, window="content"].
+Much like the Keycloak provider, you can use a https://backstage.io/docs/integrations/gitlab/discovery/[GitLab provider to discover^, window="console"] and import Entities from repositories in GitLab. This functionality is provided by the
+https://npmjs.com/package/@backstage/plugin-catalog-backend-module-gitlab/v/0.3.21[@backstage/plugin-catalog-backend-module-gitlab plugin^, window="content"]. You can see that this is a supported https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.5/html/dynamic_plugins_reference/con-preinstalled-dynamic-plugins[dynamic plugin in the {product_name_rhdh} documentation^, window="content"].
 
 To install and configure this plugin:
 
@@ -29,7 +29,7 @@ image:m2/gitlab-techdoc-config.png[TechDocs Config for Local Builder, width=50%]
 . Find the `appConfig.catalog.providers` configuration and uncomment the `--- GITLAB_CATALOG_PROVIDER ---` block as shown below. +
 +
 image:m2/gitlab-catalog-provider.png[GitLab Catalog Provider, width=70%]
-// . Verify that you indentation matches that shown in the screenshot, 
+// . Verify that you indentation matches that shown in the screenshot,
 . Commit your changes with the message `feat: add gitlab autodiscovery`.
 // +
 // image:m2/gitlab-discovery.png[GitLab code editor showing catalog providers configuration for {product_name_rhdh}]
@@ -40,7 +40,7 @@ image:m2/gitlab-catalog-provider.png[GitLab Catalog Provider, width=70%]
 . After a few moments your new {product_name_rhdh} configuration will finish rolling out. Check the logs for the new https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/backstage/core%7Ev1%7EPod[{product_name_rhdh} Pod^, window="console"]. You should see that a repository was discovered - that means the repository contains https://backstage.io/docs/features/software-catalog/descriptor-format/[catalog-info.yaml, window="blank"] file.
 +
 image:m2/rhdh-logs-gitlab-discovery.png[GitLab Autodiscovery Logs in the OpenShift Console]
-. The repository in question is the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/global/global-techdocs[global/global-techdocs^, window="gitlab"]. This repository contains a __catalog-info.yaml__ that defines a Component, and an annotation `backstage.io/techdocs-ref` that tells the TechDocs plugin where to find the source for documentation builds for the Component. 
+. The repository in question is the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/global/global-techdocs[global/global-techdocs^, window="gitlab"]. This repository contains a __catalog-info.yaml__ that defines a Component, and an annotation `backstage.io/techdocs-ref` that tells the TechDocs plugin where to find the source for documentation builds for the Component.
 +
 image:m2/global-techdocs-cat-info.png[Global TechDocs catalog-info.yaml file]
 
@@ -56,9 +56,9 @@ image:m2/global-techdocs-component-view.png[Global TechDocs being rendered, widt
 . It should compile and render the TechDocs.
 +
 image:m2/global-techdocs-docs.png[Global TechDocs being rendered]
-. You might have noticed that the side menu has a new *Docs* entry too. This appeared when you enabled the TechDocs plugin! 
-+
-image:m2/global-docs-menu.png[Docs side menu]
+. You might have noticed that the side menu has a new *Docs* entry too. This appeared when you enabled the TechDocs plugin!
+//+
+//image:m2/global-docs-menu.png[Docs side menu]
 
 == TechDocs Generation and Storage Configuration
 
@@ -74,7 +74,7 @@ techdocs:
     runIn: local
 ----
 
-This particular configuration is instructing TechDocs to build (`builder`) and store documentation locally (`publisher.type`), in the running {product_name_rhdh} container. 
+This particular configuration is instructing TechDocs to build (`builder`) and store documentation locally (`publisher.type`), in the running {product_name_rhdh} container.
 
 The `generator: local` option instructs TechDocs to build the documentation on-demand. This requires the underlying container to have the necessary dependencies installed - {product_name_rhdh} has these dependencies in place.
 

@@ -7,14 +7,14 @@ include::../style.adoc[]
 
 == Objectives
 
-* Discuss the challenges currently faced by developers and the need for an Internal Developer Platform 
+* Discuss the challenges currently faced by developers and the need for an Internal Developer Platform
 * Learn why a developer platform is necessary for rapid innovation
 
 == Hello Parasol!
 
 Parasol is an Insurance company but looking at rapidly expanding into different other verticals such as retail etc. With business booming, and their online presence increasing, the teams also grow in numbers. But the team, while being quite technically proficient, is quite siloed in their way of working especially because they are widespread and this results in difficulties in collaborating with each other.
 
-With a rapidly evolving and expanding team, it is getting harder and harder for the team to keep up with 
+With a rapidly evolving and expanding team, it is getting harder and harder for the team to keep up with
 
 * knowing who is doing what
 * onboarding new team members and get them to be effective ASAP
@@ -29,7 +29,7 @@ The team hears about the magic words - _Internal Developer Platform (IDP)_, and 
 
 {product_name_rhdh} streamlines development through a unified and open platform that reduces cognitive load and frustration for developers. It provides pre-architected and supported approaches that can help Parasol get their applications into production faster and more securely—without sacrificing code quality.
 
-{product_name_rhdh} and its associated plugins extend the popular upstream Backstage product by providing additional features such as integration with OpenShift, enterprise role-based access control (RBAC), and dynamic plugins - while including all the nice goodies that come with Backstage project itself.
+{product_name_rhdh} and its associated plugins extend the popular upstream Backstage project by providing additional features such as integration with OpenShift, enterprise role-based access control (RBAC), and dynamic plugins - while including all the nice goodies that come with Backstage project itself.
 
 
 == Hello Workshop!
