@@ -13,7 +13,7 @@ Platform Engineers can deploy {product_name_rhdh} on OpenShift using the Operato
 
 The instance of OpenShift Container Platform used in this workshop environment has been preconfigured with OpenShift GitOps (Argo CD). Your deployment of {product_name_rhdh} is kept up to date using a GitOps workflow, as illustrated below.
 
-NOTE: https://www.redhat.com/en/topics/devops/what-is-gitops[GitOps] is the practice of automating application deployment using Git repositories as the "source of truth" for an https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac[infrastructure as code (IaC)] for the deployment configuration. The Git repository contains declaritive configuration, typically in YAML format, that describes the desired deployment state and a GitOps tool such as OpenShift GitOps ensures the application is deployed according to the configuration. Drifts from configuration can automatically be patched. 
+NOTE: https://www.redhat.com/en/topics/devops/what-is-gitops[GitOps] is the practice of automating application deployment using Git repositories as the "source of truth" for an https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac[infrastructure as code (IaC)] for the deployment configuration. The Git repository contains declaritive configuration, typically in YAML format, that describes the desired deployment state and a GitOps tool such as OpenShift GitOps ensures the application is deployed according to the configuration. Drifts from configuration can automatically be patched.
 
 // TODO: replace with product icons
 
