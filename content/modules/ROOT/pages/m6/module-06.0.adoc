@@ -1,0 +1,54 @@
+:imagesdir: ../../assets/images
+
+= Module 6: Software Supply Chain Security
+
+include::../style.adoc[]
+
+== Overview
+
+//TODO What is Software Supply Chain Security and how does it affect
+//Platform Engineers
+//Developers
+
+== Objectives
+// MVP
+// PE adds signing to post-merge pipeline (this image tag is the one being used, pre-merge is discarded)
+// PE adds signature verification to prod deployment pipeline
+// PE adds .vscode/extensions.json to codebase with RHDA
+// For DEVs --> optional task, since local VSCode or IntelliJ required: Show RHDA results and interaction.
+
+
+// Step 2
+// PE adds provenance metadata to build process & provenance verification (Enterprise Contract / Conforma policies) to prod deployment pipeline
+
+// Step 3
+// PE adds image scanning & policy checks to pre-merge pipeline (ACS required)
+// PE configures ACS policies-as-code
+// PE configures Admission Controller (showcase ACS & sigstore Admission controller)
+
+// Step 4
+// Continuous monitoring of templates (scaffolder code) for vulnerable dependencies.
+
+
+
+//// 
+* SecOps is alerted about a compromised library
+* PE runs a vulnerability scan to detect which applications are affected, and whom to contact.
+* Affected teams are alerted need to issue fixes asap.
+* PE checks existing software templates for the detected vulnerabilities.
+* Changes are rolled out to RHDH Software Template catalogue if needed
+* ( Policy Exception request for a low severity issue may be approved by SecOps)
+////
+
+
+== Your lab environment
+
+== Introductions to Concepts
+
+
+== Activity 1 
+
+
+== Activity 2
+
+== Conclusion
