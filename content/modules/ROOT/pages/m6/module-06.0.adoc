@@ -13,7 +13,7 @@ include::../style.adoc[]
 == Objectives
 // MVP
 // PE adds signing to post-merge pipeline (this image tag is the one being used, pre-merge is discarded)
-// PE adds signature verification to prod deployment pipeline
+// PE adds signature verification to prod deployment pipeline (pre-PR-merge parasol/parasol-store-build-manifests/-/blob/main/helm/parasol-store-build/templates/pipeline-pr-prod-open.yaml)
 // PE adds .vscode/extensions.json to codebase with RHDA
 // For DEVs --> optional task, since local VSCode or IntelliJ required: Show RHDA results and interaction.
 
