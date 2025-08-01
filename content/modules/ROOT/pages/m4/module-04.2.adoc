@@ -66,7 +66,26 @@ https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/import-existing-ap
 ----
 . Review and import the template by clicking on the *Import* button
 
-=== View the Imported Templates
+=== Onboard Parasol's System and Domain
+
+In a previous chapter you learned how https://backstage.io/docs/features/software-catalog/system-model#system[System,window="content"] and https://backstage.io/docs/features/software-catalog/system-model/#domain[Domain,window="content"] Entities help organize and provide a hierarchy of Components in {product_name_rhdh}. In this section you will setup Parasol's System and Domain.
+
+. Click on Register another button from the previous step
+. Paste the below URL and click on *Analyze*
++
+[source,bash,role=execute,subs="attributes"]
+----
+https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/rhdh-entities/-/blob/main/locations.yaml
+----
+. Click *Import* in the Review section.
+. The Systems and Domain are setup. 
+
+[NOTE]
+====
+Systems are the basic level of encapsulation for related entities. Domains are useful to group a collection of Systems that share terminology, domain models, business purpose etc.
+====
+
+== View the Imported Templates
 
 Navigate to the https://backstage-backstage.{openshift_cluster_ingress_domain}/create[*Create* screen, window="rhdh"]. You should see both the templates for importing APIs and applications to {product_name_rhdh}.
 
@@ -75,14 +94,13 @@ image::m4/import-templates-list.png[]
 
 == Setup GitLab Entity Auto-Discovery
 
-The new templates require a set of dynamic plugins to function detect the newly created Entities: 
+The new templates require a set of dynamic plugins for the newly created Entities to function correctly. 
 
 * *backstage-plugin-catalog-backend-module-gitlab-dynamic* to enable auto-discovery of `catalog-info.yaml` files.
 * *immobiliarelabs-backstage-plugin* to create Merge Requests using the GitLab API.
 
 === Enable the Plugins 
 
-. You will also enable a couple of Community plugins which will help view Merge requests and Issues from GitLab
 . Visit your https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config/-/edit/main/values.yaml[rhdh/developer-hub-config repository on GitLab^, window="gitlab"]. If prompted, login with `pe1` / `{common_password}`.
 . You should already be in Edit mode of the `values.yaml` file.
 . Locate the comment `--- DYNAMIC_PLUGINS_IMPORT_COMPONENTS ---`
@@ -103,22 +121,3 @@ NOTE: This YAML snippet enables auto-discovery for all files named _all-location
 
 . Refresh the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[`backstage` Application, window="argo"] to rollout the new {product_name_rhdh} configuration - login as `admin` / `{openshift_gitops_password}`. Wait until the Application turns green and marked as Healthy. 
 
-
-== Onboard Parasol's System and Domain
-
-In a previous chapter you learned how https://backstage.io/docs/features/software-catalog/system-model#system[System,window="content"] and https://backstage.io/docs/features/software-catalog/system-model/#domain[Domain,window="content"] Entities help organize and provide a hierarchy of Components in {product_name_rhdh}. In this section you will setup Parasol's System and Domain.
-
-. From {product_name_rhdh}, navigate to https://backstage-backstage.{openshift_cluster_ingress_domain}/create[*Create* screen, window="rhdh"]; choose *Register Existing Component* button
-. Paste the below URL and click on *Analyze*
-+
-[source,bash,role=execute,subs="attributes"]
-----
-https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/rhdh-entities/-/blob/main/locations.yaml
-----
-. Click *Import* in the Review section.
-. The Systems and Domain are setup. 
-
-[NOTE]
-====
-Systems are the basic level of encapsulation for related entities. Domains are useful to group a collection of Systems that share terminology, domain models, business purpose etc.
-====
