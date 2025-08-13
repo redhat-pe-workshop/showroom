@@ -30,10 +30,29 @@ You'll need an account in Quay to push your developer's container images for sca
 . Click the *Create Account* link.
 +
 image:m3/quay-create-account-link.png[Creating a Quay Account, width="60%"]
-. Enter the following information:
-  * Username: `dev1`
-  * Email: `dev1@rhdh.com`
-  * Password: `{common_password}`
+. Enter the following information.
+
+.. Username:
++
+[source,bash,role=execute,subs=attributes+]
+----
+dev1
+----
+
+.. Email:
++
+[source,bash,role=execute,subs=attributes+]
+----
+dev1@rhdh.com
+----
+
+.. Password:
++
+[source,bash,role=execute,subs=attributes+]
+----
+{common_password}
+----
+
 +
 image:m3/quay-create-account.png[Creating a Quay Account]
 . Click *Create Account*.

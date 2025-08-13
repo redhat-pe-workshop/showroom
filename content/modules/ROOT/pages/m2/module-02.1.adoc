@@ -41,7 +41,7 @@ Entities are typically imported and synchronized in one of three ways:
 . Manually registering entities via the UI by providing a link to a repository containing them.
 . Declaring them in the Backstage configuration.
 
-You'll utilize all three methods throughout this workshop. In all cases, the Entities will be synchronized on a regular schedule to ensure the information in the Software Catalog remains up to date. 
+In all cases, the Entities will be synchronized on a regular schedule to ensure the information in the Software Catalog remains up to date. You'll utilize all three methods throughout this workshop.
 
 If Entity information is stored in a Git repository, the convention is to place them in a _catalog-info.yaml_. This file will look similar to the following example:
 

@@ -14,7 +14,7 @@ Create a new software Component and supporting infrastructure using the *Quarkus
 . Click the *Create* icon (plus symbol) in the top menu.
 +
 image:m3/rhdh-create.png[The {product_name_rhdh} Create UI]
-. Click the *Choose* button on the *Quarkus Service*. The *Software Templates* screen will be displayed.
+. Click the *Choose* button on the *Quarkus Service*. The Template parameters collection screen will be displayed.
 . In Step 1, you'll be prompted to enter a set of application parameters. Thankfully, defaults are provided by the template, so you can simply click *Next*.
 . In Step 2, when prompted to *Provide Image Registry Information*:
   * Select the *Quay* image registry.
@@ -48,7 +48,7 @@ image:m3/rhdh-new-component.png[A successful template run in {product_name_rhdh}
 
 Select the *CI* tab to view the status of the OpenShift Pipelines (Tekton) build. It might take a moment or two for the currently to appear in the *Pipeline Runs* pane. The Pipeline Run is triggered by a set of build manifests that were created in a separate GitOps repository from the Quarkus application's source code - you can find the manifests in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/dev1/my-quarkus-app-gitops/-/tree/main/helm/quarkus-build[helm/quarkus-build, window="gitlab"] folder. The GitOps Application responsible for applying the build manifests can be seen in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/dev1/my-quarkus-app-gitops/-/blob/main/argocd/argocd-app-dev-build.yaml[*argocd/argocd-app-dev-build.yaml*, window="gitlab"] file that was added to Argo CD by the `argocd:create-resources` action in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/template-quarkus-simple/-/blob/main/template.yaml[*template.yaml*, window="gitlab"].
 
-NOTE: Manifests related to the developer's applications are managed by a second instance of OpenShift GitOps named *rhdh-gitops*. This second instance is used to manage Parasol's development team's applications, whereas the OpenShift GitOps instance you accessed earlier manages platform components - including the second instance of OpenShift GitOps. View the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications?search=rhdh[rhdh-gitops ArgoCD Application] by logging in to the *primary* OpenShift GitOps instance using `admin` / `{openshift_gitops_password}`.
+NOTE: Manifests related to the developer's applications are managed by a second instance of OpenShift GitOps named *rhdh-gitops*. This second instance is used to manage Parasol's development team's applications, whereas the OpenShift GitOps instance you accessed earlier manages platform components - including the second instance of OpenShift GitOps. View the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications?search=rhdh[rhdh-gitops ArgoCD Application^, window="argo"] by logging in to the *primary* OpenShift GitOps instance using `admin` / `{openshift_gitops_password}`.
 
 image:m3/rhdh-new-component-ci.png[CI status for the Quarkus Service]
 

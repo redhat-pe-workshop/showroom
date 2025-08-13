@@ -5,7 +5,7 @@
 
 include::../style.adoc[]
 
-The Platform Engineering team creates two Templates for importing existing applications/services, and APIs into {product_name_rhdh}. While it is possible to use the same template to import both of them, there are some key differences in the data that must be gathered. 
+As mentioned in the previous section, the Platform Engineering team created two Templates for importing existing applications/services (Components), and APIs into {product_name_rhdh}. While it is possible to use the same template to import both of them, there are some key differences in the data that must be gathered for API and Component Entities. 
 
 IMPORTANT: Please make sure to log in as a *Platform Engineer* with `pe1` / `{common_password}`. Refer to the below guide for assistance.
 
@@ -16,73 +16,67 @@ include::../login-pe.adoc[]
 ====
 
 
-== Register the Import Software Templates
+== Register the Import API and Component Templates
 
 === Software Template Overview 
 
-You learned how to create Software Templates in module 3. In this section we will walk through a Template that has been pre-built for you. 
+You learned how to create and import Software Templates using the {product_name_rhdh} UI in module 3. In this section, you'll import Templates that have been pre-built for you by adding them directly to the `catalog.locations` configuration in your `values.yaml` file instead of using the UI registration wizard.
 
-The *import-existing-api* Software Template you'll be using is available in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/import-existing-api-template/-/blob/main/template.yaml[import-existing-api-template/template.yaml^, window="gitlab"] file in GitLab
+The two Software Templates you'll be importing are:
 
-This template does the following:
+* *import-existing-api* - Available in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/import-existing-api-template/-/blob/main/template.yaml[import-existing-api-template/template.yaml^, window="gitlab"] file in GitLab
+* *import-existing-app* - Available in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/import-existing-app-template/-/blob/main/template.yaml[import-existing-app-template/template.yaml^, window="gitlab"] file in GitLab
+
+The *import-existing-api* template does the following:
 
 . Gather details of the API (GitLab org name, repo name) as template parameters.
-. Gather details of the new Component to be created (Git repository for the Component, the catalog info, OpenAPI file location etc.)
+. Creates a Merge Request to create the new _catalog-info.yaml_ and TechDocs files, which will register the API in the Software Catalog once merged.
+
+The *import-existing-app* template does the following:
+
+. Gather details of the new Component to be created (Git repository for the Component, the catalog info, etc.)
 . Creates a Merge Request to create the new _catalog-info.yaml_ and TechDocs files, which will register the Component in the Software Catalog once merged.
 
-=== Register the Import API Software Template
+=== Add Templates to Catalog Configuration
 
-. Access {product_name_rhdh} (https://backstage-backstage.{openshift_cluster_ingress_domain}[click here^, window="rhdh"]). If prompted login using `pe1` / `{common_password}`
-. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Create* menu.
+. Visit your https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config/-/edit/main/values.yaml[rhdh/developer-hub-config repository on GitLab^, window="gitlab"]. If prompted, login with `pe1` / `{common_password}`.
+. You should already be in Edit mode of the `values.yaml` file if you clicked the link above.
+. Locate the `catalog:` section and find the `locations:` array. 
+. Add the following two new entries to the `locations:` array to import both Software Templates:
 +
-image::m4/nav-create.png[]
-. Click on the *Register Existing Component* button on the top-right of the page to launch the *Register an existing component* wizard. 
-. Paste the following URL into the *Select URL* field and click on *Analyze* button. This URL points to Software Template's https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/import-existing-api-template/-/blob/main/template.yaml[template.yaml, window="gitlab"] file.
-+ 
-[source,bash,role=execute,subs="attributes"]
+[source,yaml,role=execute,subs="attributes"]
 ----
-https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/import-existing-api-template/-/blob/main/template.yaml
+catalog:
+  locations:
+    - type: url
+      target: https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/import-existing-api-template/-/blob/main/template.yaml
+    - type: url
+      target: https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/import-existing-app-template/-/blob/main/template.yaml
 ----
 +
-image::m4/nav-register-wizard.png[]
-. Review, and import the template by clicking on the *Import* button.
-+
-image::m4/nav-register-import.png[]
+NOTE: Make sure to maintain proper YAML indentation and alignment with the existing `locations:` entries.
+. Don't commit the changes yet - you need to also enable the required dynamic plugins for these templates to function properly.
 
-. The *import-api-catalog* Template is successfully registered.
-+
-image::m4/nav-access-api-template.png[]
+Your changes in GitLab should resemble the following screenshot.
 
-=== Register Import App Software Template
-
-. Let us now register the *Import existing application* template as well.
-. Click on *Register another* button from the previous step; 
-.. If that is not accessible anymore, select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Create* menu, and then choose *Register Existing Component* (top right)
-. Paste the following URL:
-+
-[source,bash,role=execute,subs="attributes"]
-----
-https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/import-existing-app-template/-/blob/main/template.yaml
-----
-. Review and import the template by clicking on the *Import* button
+image::m4/gitlab-locations.png[]
 
 === View the Imported Templates
 
-Navigate to the https://backstage-backstage.{openshift_cluster_ingress_domain}/create[*Create* screen, window="rhdh"]. You should see both the templates for importing APIs and applications to {product_name_rhdh}.
+After you complete the configuration in the following sections and commit your changes, you can verify the templates are available by navigating to the https://backstage-backstage.{openshift_cluster_ingress_domain}/create[*Create* screen, window="rhdh"]. You should see both templates for importing APIs and applications to {product_name_rhdh}.
 
 image::m4/import-templates-list.png[]
 
 
 == Setup GitLab Entity Auto-Discovery
 
-The new templates require a set of dynamic plugins to function detect the newly created Entities: 
+The new templates require plugins to function, and ensure the newly created Entities are detected by {product_name_rhdh}: 
 
 * *backstage-plugin-catalog-backend-module-gitlab-dynamic* to enable auto-discovery of `catalog-info.yaml` files.
 * *immobiliarelabs-backstage-plugin* to create Merge Requests using the GitLab API.
 
 === Enable the Plugins 
 
-. You will also enable a couple of Community plugins which will help view Merge requests and Issues from GitLab
 . Visit your https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config/-/edit/main/values.yaml[rhdh/developer-hub-config repository on GitLab^, window="gitlab"]. If prompted, login with `pe1` / `{common_password}`.
 . You should already be in Edit mode of the `values.yaml` file.
 . Locate the comment `--- DYNAMIC_PLUGINS_IMPORT_COMPONENTS ---`

@@ -6,6 +6,8 @@ include::../style.adoc[]
 
 The Argo CD Backstage plugin brings sync status, health status, and update history of your Argo CD Application to your {product_name_rhdh}'s Component view. However, simply installing the Argo CD plugin doesn't automatically make the associated deployment information visible when viewing Components in the Software Catalog. An `argocd/app-selector` annotation must be added to the Component's YAML definition. This annotation instructs the Argo CD plugin to fetch the information related to the Component from the Argo CD instance you configured.
 
+Your lab environment's {product_name_rhdh} has the Argo CD plugin enabled and preconfigured, as can be seen in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config/-/blob/main/values.yaml[valyes.yaml in the rhdh/developer-hub-config^, window="gitlab"].
+
 IMPORTANT: Please ensure you are logged in as a Developer with `dev1` / `{common_password}` as you were guided to in a previous step.
 
 === Update the Catalog Info

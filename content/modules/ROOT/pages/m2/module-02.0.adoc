@@ -6,7 +6,7 @@ include::../style.adoc[]
 
 == Overview
 
-{product_name_rhdh} is based on the https://backstage.io/[Backstage^, window="content"] framework for building internal developer portals. The Backstage project was donated to the https://www.cncf.io/projects/backstage/[CNCF^, window="content"] by Spotify in 2020. Platform engineers can use {product_name_rhdh} to build internal developer portals. Doing so involves integrating {product_name_rhdh} with various data sources, cataloging existing software components, infrastructure, and resources, configuring single sign-on, and more.
+{product_name_rhdh} is based on the https://backstage.io/[Backstage^, window="content"] project for building internal developer portals. This project was donated to the https://www.cncf.io/projects/backstage/[CNCF^, window="content"] by Spotify in 2020. Platform engineers can use {product_name_rhdh} to build internal developer portals. Doing so involves integrating {product_name_rhdh} with various data sources, cataloging existing software components, infrastructure, and resources, configuring single sign-on, and more.
 
 In this module you'll learn how to architect, install, and bootstrap an instance of {product_name_rhdh} to create a minimum viable internal developer portal for a select group of developers within your organization.
 

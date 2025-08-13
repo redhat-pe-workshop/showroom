@@ -17,7 +17,7 @@ include::../login-developer.adoc[]
 
 == Import Parasol Store OpenAPI 
 
-. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Create* menu, and click the *Choose* button on the *Import Existing API* Template.
+. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Self-service* menu, and click the *Choose* button on the *Import Existing API* Template.
 +
 image:m4/import-api-template.png[width=30%]
 . You will be presented with the Software Template wizard. +
@@ -90,7 +90,7 @@ image:m4/view-api-definition.png[]
 
 == Import Parasol Store as a Component
 
-. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Create* menu of {product_name_rhdh}.
+. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Self-service* menu of {product_name_rhdh}.
 . Click the *Choose* button of the `Import Existing Application` template.
 +
 image:m4/import-app-template.png[width=40%]

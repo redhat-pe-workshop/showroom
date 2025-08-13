@@ -4,7 +4,7 @@
 include::../style.adoc[]
 
 
-In this module, as a Developer you are tasked to make change to an existing service - the `parasol-store` service. You will create a feature branch of the repository and then work in an ephemeral environment that allows you to work independently without impacting other developers in your team. Once you are ready with the changes, you can raise a merge request to push your changes to main branch, and there progressing the changes to production deployment
+In this module, as a Developer you are tasked to make changes to an existing service - the `parasol-store` service. You will create a feature branch of the repository and then work in an ephemeral environment that allows you to work independently without impacting other developers in your team. Once you are ready with the changes, you can raise a merge request to push your changes to main branch, and there progressing the changes to production deployment
 
 IMPORTANT: Please make sure you are logged in as a *Developer* with `dev1` / `{common_password}`.
 
@@ -29,7 +29,7 @@ image:m4/create-branch-name.png[width=70%]
 == Onboard the Feature Branch using template
 
 . Visit your instance of https://backstage-backstage.{openshift_cluster_ingress_domain}[{product_name_rhdh}^, window="rhdh"]. If prompted, login as `dev1` / `{common_password}`.
-. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Create* menu and view the available templates.
+. Select the image:common/plus-icon.png[width=15px] icon on the top navigation bar to access the *Self-service* menu and view the available templates.
 . Click *Choose* button on the *Parasol Store Development* template. 
 +
 image:m4/choose-parasol-store-template.png[width=30%]

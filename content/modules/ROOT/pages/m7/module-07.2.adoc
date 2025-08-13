@@ -39,6 +39,7 @@ image:m7/adoption-insights-plugin-config-commented-block.png[Adoption Insights c
 ----
 feat: enable adoption insights plugin
 ----
+
 . Click the *Commit changes* button.
 
 As you're familiar with by now, you can refresh the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications[backstage Application in OpenShift GitOps^, window="argo"] and to deploy the new {product_name_rhdh} configuration. The Adoption Insights plugin will be available from **Administration > Adoption Insights** when the deployment has finished, but no data is available yet.

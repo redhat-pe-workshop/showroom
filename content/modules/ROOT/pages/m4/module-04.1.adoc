@@ -30,7 +30,7 @@ Application development and deployment cycles can be defined to have an Inner-Lo
 
 image:m4/inner-outer-loops.png[width=60%] 
 
-The *Inner Loop* is the iterative development cycle that developers follow when writing, testing, and debugging code _locally_ before integrating it into a shared environment. Developers primarily live within the inner loop. In many organizations, the inner loop typically takes place on a developer's computer. In this workshop thr inner loop extends to an ephemeral (or preview) environment (namespace) on OpenShift that allows a developer to test their changes in a production-like environment.
+The *Inner Loop* is the iterative development cycle that developers follow when writing, testing, and debugging code _locally_ before integrating it into a shared environment. Developers primarily live within the inner loop. In many organizations, the inner loop typically takes place on a developer's computer. In this workshop the inner loop extends to an ephemeral (or preview) environment (namespace) on OpenShift that allows a developer to test their changes in a production-like environment.
 
 NOTE: An Ephemeral environment is meant to be a transient environment to be used to build specific features, and can be torn down once the feature development is complete
 
