@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+# Check if logged into OpenShift cluster
+echo "Checking OpenShift login status..."
+if ! oc whoami &>/dev/null; then
+    echo "Error: Not logged into OpenShift cluster"
+    echo "Please log in and try again"
+    exit 1
+fi
+
+# Get current user and server info
+CURRENT_USER=$(oc whoami)
+CURRENT_SERVER=$(oc whoami --show-server)
+echo "Logged in as: $CURRENT_USER"
+echo "Connected to: $CURRENT_SERVER"
+
+echo "Fetching PE Workshop related info from OpenShift..."
+
+# Get the console URL from the console route
+OPENSHIFT_CLUSTER_CONSOLE_URL=$(oc get route console -n openshift-console -o jsonpath='{.spec.host}')
+if [ -z "$OPENSHIFT_CLUSTER_CONSOLE_URL" ]; then
+    echo "Error: Could not retrieve console URL"
+    exit 1
+fi
+echo "Console URL: https://$OPENSHIFT_CLUSTER_CONSOLE_URL"
+
+# get ingress domain from ingresscontroller
+OPENSHIFT_CLUSTER_INGRESS_DOMAIN=$(oc get ingresscontroller default -n openshift-ingress-operator -o jsonpath='{.status.domain}')
+if [ -z "$OPENSHIFT_CLUSTER_INGRESS_DOMAIN" ]; then
+    echo "Error: Could not determine ingress domain"
+    exit 1
+fi
+echo "Ingress domain: $OPENSHIFT_CLUSTER_INGRESS_DOMAIN"
+
+# Get common_password from argocd-password secret in backstage namespace
+COMMON_PASSWORD=$(oc get secret argocd-password -n backstage -o jsonpath='{.data.ARGOCD_PASSWORD}' | base64 -d)
+if [ -z "$COMMON_PASSWORD" ]; then
+    echo "Error: Could not retrieve common password from backstage namespace"
+    exit 1
+fi
+echo "Retrieved common password from backstage namespace"
+
+# Get openshift_gitops_password from openshift-gitops-cluster secret
+OPENSHIFT_GITOPS_PASSWORD=$(oc get secret openshift-gitops-cluster -n openshift-gitops -o jsonpath='{.data.admin\.password}' | base64 -d)
+if [ -z "$OPENSHIFT_GITOPS_PASSWORD" ]; then
+    echo "Error: Could not retrieve GitOps password from openshift-gitops namespace"
+    exit 1
+fi
+echo "Retrieved GitOps admin password"
+
+
+echo "Starting build process..."
+echo "Removing old site..."
+rm -rf ./www/*
+echo "Building new site..."
+
+podman run --rm --name showroom-builder --platform linux/amd64 \
+  -v "./:/antora:z" \
+  docker.io/antora/antora --attribute openshift_cluster_console_url="https://$OPENSHIFT_CLUSTER_CONSOLE_URL" \
+  --attribute openshift_cluster_ingress_domain="$OPENSHIFT_CLUSTER_INGRESS_DOMAIN" \
+  --attribute common_password="$COMMON_PASSWORD" \
+  --attribute openshift_gitops_password="$OPENSHIFT_GITOPS_PASSWORD" --stacktrace \
+  default-site.yml
+
+echo "Build process complete. Check the ./www folder for the generated site."
+echo "To view the site locally, run the following command: utilities/lab-serve"
+echo "If already running then browse to http://localhost:8080/index.html"

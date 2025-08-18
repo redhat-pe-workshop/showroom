@@ -6,49 +6,17 @@ include::../style.adoc[]
 
 == Overview
 
-//TODO What is Software Supply Chain Security and how does it affect
-//Platform Engineers
-//Developers
+So far, as Platform Engineers, we have provided our developers with templates to start new development activities as well as straightforward means to contribute to existing projects, inluding ephermal development environments on our cluster.
 
-== Objectives
-// MVP
-// PE adds signing to post-merge pipeline (this image tag is the one being used, pre-merge is discarded)
-// PE adds signature verification to prod deployment pipeline (pre-PR-merge parasol/parasol-store-build-manifests/-/blob/main/helm/parasol-store-build/templates/pipeline-pr-prod-open.yaml)
-// PE adds .vscode/extensions.json to codebase with RHDA
-// For DEVs --> optional task, since local VSCode or IntelliJ required: Show RHDA results and interaction.
+However, there is one aspect that we have not discussed so far: *How can we add security guardrails to the software development process, without hampering developer productivity?* 
 
+In this chapter, we will discuss:
 
-// Step 2
-// PE adds provenance metadata to build process & provenance verification (Enterprise Contract / Conforma policies) to prod deployment pipeline
+==  Module Objectives
 
-// Step 3
-// PE adds image scanning & policy checks to pre-merge pipeline (ACS required)
-// PE configures ACS policies-as-code
-// PE configures Admission Controller (showcase ACS & sigstore Admission controller)
+* Supporting Developers with easy to use guidance regarding vulnerabilities hidden in their dependencies
+* Adding container image scanning capabilities to our Continuous Intergartion (CI) flow
+* Providing artifact integrity by automatically signing and verifying artifacts
+* Adding (attesting) artifact provenance information to our artifacts and verify the attestation before deployment
+* Using Admission Controllers to protect our namespaces from untrusted workloads 
 
-// Step 4
-// Continuous monitoring of templates (scaffolder code) for vulnerable dependencies.
-
-
-
-//// 
-* SecOps is alerted about a compromised library
-* PE runs a vulnerability scan to detect which applications are affected, and whom to contact.
-* Affected teams are alerted need to issue fixes asap.
-* PE checks existing software templates for the detected vulnerabilities.
-* Changes are rolled out to RHDH Software Template catalogue if needed
-* ( Policy Exception request for a low severity issue may be approved by SecOps)
-////
-
-
-== Your lab environment
-
-== Introductions to Concepts
-
-
-== Activity 1 
-
-
-== Activity 2
-
-== Conclusion

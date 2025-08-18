@@ -29,11 +29,19 @@
 ** xref:m5/module-05.1.adoc[5.1 Developer Activity: Merge request from feature branch to main]
 ** xref:m5/module-05.2.adoc[5.2 Updates to Production Argo CD Manifests]
 
-* xref:m7/module-07.0.adoc[6. Enable Continuous Improvement]
-** xref:m7/module-07.1.adoc[6.1 Introduction]
-** xref:m7/module-07.2.adoc[6.2 Adoption Insights]
-** xref:m7/module-07.3.adoc[6.3 Observability]
-** xref:m7/module-07.4.adoc[6.4 Developer Self Service]
+* xref:m6/module-06.0.adoc[6. Software Supply Chain Security]
+** xref:m6/module-06.1.adoc[6.1 Introduction to concepts]
+** xref:m6/module-06.2.adoc[6.2 Dependency Analytics]
+** xref:m6/module-06.3.adoc[6.3 Image Scanning]
+** xref:m6/module-06.4.adoc[6.4 Keyless Signing & Verification]
+** xref:m6/module-06.5.adoc[6.5 Provenance and Attestation]
+** xref:m6/module-06.6.adoc[6.6 Admission Controllers] 
+
+* xref:m7/module-07.0.adoc[7. Enable Continuous Improvement]
+** xref:m7/module-07.1.adoc[7.1 Introduction]
+** xref:m7/module-07.2.adoc[7.2 Adoption Insights]
+** xref:m7/module-07.3.adoc[7.3 Observability]
+** xref:m7/module-07.4.adoc[7.4 Developer Self Service]
 
 * xref:env.adoc[My lab environment details]
 
