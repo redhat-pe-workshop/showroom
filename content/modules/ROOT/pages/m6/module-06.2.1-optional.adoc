@@ -1,0 +1,9 @@
+:imagesdir: ../../assets/images
+
+
+include::../style.adoc[]
+
+
+== Red Hat Dependency Analytics
+
+
