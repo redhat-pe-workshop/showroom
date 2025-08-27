@@ -59,6 +59,7 @@ podman run --rm --name showroom-builder --platform linux/amd64 \
   docker.io/antora/antora --attribute openshift_cluster_console_url="https://$OPENSHIFT_CLUSTER_CONSOLE_URL" \
   --attribute openshift_cluster_ingress_domain="$OPENSHIFT_CLUSTER_INGRESS_DOMAIN" \
   --attribute common_password="$COMMON_PASSWORD" \
+  --attribute product_name_rhdh="Red Hat Developer Hub" \
   --attribute openshift_gitops_password="$OPENSHIFT_GITOPS_PASSWORD" --stacktrace \
   default-site.yml
 

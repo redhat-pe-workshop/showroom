@@ -28,17 +28,22 @@ Which brings us to the core of this chapter:
 
 One such tool is Red Hat Dependency Analytics, an IDE Plugin available for https://marketplace.visualstudio.com/items?itemName=redhat.fabric8-analytics[VSCode] and https://plugins.jetbrains.com/plugin/12541-red-hat-dependency-analytics[IntelliJ].
 
-NOTE: This workshop primarily focuses on the Platform Engineer (PE) role. This workshop doesn't require you to have an IDE on your laptop or any other local dependency. Therefore, this chapter is more informational. However, if you would like to give it a spin, go to xref:module-06.2.1-optional.adoc[this (optional) chapter] where we explain how to try it out locally.
+NOTE: This workshop primarily focuses on the Platform Engineer (PE) role. This workshop doesn't require you to have an IDE on your laptop or any other local dependency. Therefore, this chapter is more informational. However, if you would like to give it a spin, expand the section below where we explain how to try it out locally. You need to have `git` and either VSCode or IntelliJ installed on your machine to follow this example.
 
+.*Expand to try it out locally*
+[%collapsible]
+====
+include::./module-06.2.1-optional.adoc[]
+====
 
-==== Analysis
+=== RHDA: Analysis
 
 Opening a dependencies file (in our case, the `pom.xml`) automatically starts the analysis if the Plugin has been installed, as shown in the status bar:
 
 image:m6/vscode_start_rhda.png[]
 
 
-==== Results
+=== RHDA: Results
 
 image:m6/vscode_analysis_done.png[]
 
@@ -50,7 +55,7 @@ image:m6/vscode_analysis_done.png[]
 The plugin recommends to upgrade to a newer version, which also is the Red Hat build: `Recommendation: io.quarkus/quarkus-arc@2.13.8.Final-redhat-00006`
 
 
-==== Detailed Report
+=== RHDA: Detailed Report
 
 Opening the report gives us an overview of all vulnerabilities, direct or transitive:
 
@@ -60,6 +65,8 @@ Drilling deeper, we can see vulnerabilities in transitive dependencies, grouped 
 
 image:m6/rhda_analysis_transitive.png[]
 
-If there are known remediations, these are listed here as well, together with detailed information about the vulnerability in question - because not every vulnerability is equally dangerous. Some might be dependent on system settings or specific configurations. The Developer needs this information to make an informed decision wether to upgrade the version, apply a remediation, mitigate the risk in some other way or accept it.
+If there are known remediations, these are listed here as well, together with detailed information about the vulnerability in question - because not every vulnerability is equally dangerous. Some might be dependent on system settings or specific configurations. 
+
+Developers need this information to make *informed decisions* wether to upgrade the version, apply a remediation, mitigate the risk in some other way or accept and document it.
 
 This is what *Shifting-Left Security* is all about. 
