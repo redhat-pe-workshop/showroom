@@ -15,6 +15,8 @@ In this chapter, we will discuss how developers can sign their code commits, pro
 
 NOTE: Before we dive into code commit signing and verification, we talk about the general principles - because it doesn't matter if I want to sign a code commit, a container image or any other artifact (e.g. a `.jar` file) *- from a signing perspective*.
 
+Without going too deep into details, one can see that the "traditional" public/private key pair-based signing comes with a lot of challenges: 
+
 [cols="1,1"]
 |===
 |"Traditional" Signing & Verification |Challenges
@@ -33,7 +35,6 @@ a|
 2+|*Result:* Well known but rarely used at scale in an enterprise environment.
 |===
 
-Without going too deep into details, one can see that the "traditional" public/private key pair-based signing comes with a lot of challenges. 
 
 With *Keyless Signing*, using https://developers.redhat.com/products/trusted-artifact-signer/overview[*Red Hat Trusted Artifact Signer*]  - based on the https://www.sigstore.dev/[sigstore project] - this has been massively simplified:
 
@@ -67,12 +68,109 @@ a|
 
 |===
 
+image::m6/sigstore_landscapelayout_overview.svg[]
+
 == Supporting Developers: Signing Code Commits - without the hassle
 
+Ok, after all this theory, let's get practical - how can we support our developers by providing them with an easy to use code signing approach without slowing them down? 
+
+First of all - developers use `git`, either directly via command line or indirectly from within their IDE.
+
+NOTE: Since this workshop is targeted at Platform Engineers, we will focus on a quick demonstration here using our workshop environment. Similar to the previous chapter - if you'd like to try it out locally, just expand the section below, but having an IDE and `git` installed is not a prerequisite for this workshop.
+
+.*Expand to try it out locally*
+[%collapsible]
+====
+include::./module-06.3.1-optional.adoc[]
+====
+
+=== Developer Activity: Create a branch, git clone
+
+Since we want to sign commits, we need some code to work on. 
+
+As Developers, let's go back to the `parasol-store` app, clone it and create a branch to work on. We will use the `terminal` in the OpenShift Admin UI:
+
+*1. Open the Terminal*
+
+* Open the {openshift_cluster_console_url}/terminal[Terminal^, window="terminal"] logging in as `admin` and `{common_password}`
+
+*2. Terminal Setup*
+
+Since the default terminal doesn't come with the binaries (`cosign`, `gitsign`) and a `git` without any configuration, we have prepared a script that
+
+* downloads the binaries from the cluster itself (the Trusted Artifact Signer Operator installs a basic server with all the binaries needed in matching versions)
+* configures your git environment
+* configures environment variables with the appropriate endpoints for `fulcio`, `rekor` and the OIDC system (in our case the Red Hat Build of Keycloak, but any OIDC system would work)
+
+Feel free to inspect the script on https://github.com/redhat-tssc-tmm/security-roadshow/blob/main/ocp_terminal_setup.sh[GitHub] before executing it in the terminal session you just opened:
+
+TIP: It's a Linux terminal, so use `<ctrl><shift><v>` to paste
+
+[source,bash,role=execute,subs=attributes+]
+----
+source <(curl -fsSL https://raw.githubusercontent.com/redhat-tssc-tmm/security-roadshow/main/ocp_terminal_setup.sh)
+----
+
+Before we continue to clone a repository, modify code and sign our commits, let's take a quick look at what the script has done:
+
+Aside from downloading the `cosign` and `gitsign` binaries that are needed (more below), we have configured our git environment to sign each commit via `cosign`:
+
+[source,bash,role=execute,subs=attributes+]
+----
+git config --global --list
+----
+
+[source,bash,subs=attributes+]
+----
+...
+commit.gpgsign=true
+tag.gpgsign=true
+gpg.x509.program=gitsign
+gpg.format=x509
+...
+----
+
+This section tells `git` to use `gpg`-style signing (similar to the "traditional" private key based signing), the format (`x509`) and which program (in the `$PATH`) should provide the key/certificate. In our case, this is `gitsign` (that we just downloaded and put into the path).
+
+[source,bash,subs=attributes+]
+----
+...
+gitsign.fulcio=https://fulcio-server-trusted-artifact-signer.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com
+gitsign.issuer=https://sso.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com/realms/backstage
+gitsign.rekor=https://rekor-server-trusted-artifact-signer.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com
+gitsign.clientid=trusted-artifact-signer
+...
+----
+
+This section tells `gitsign` where the various endpoints are, so it can request a signing certificate and where it can store the signing event metadata.
+
+NOTE: We have chose this path for convenience - with this configuration, git will automatically sign every commit (and tag) we create. *For sake of completeness* - we could also just commit without signing and then sign the commit later, using the `cosign` binary directly, using the commit hash.
+
+Before we start signing, there is one noteworthy thing:
+
+The last command the script issued was `cosign initialize` - this downloads the current root certificate from the "TUF" (The Update Framework) endpoint and displays what it downloaded and validity / expiration information. This is the so-called "Trust root" that is needed to verify that a valid signature's certificate is also part of the trusted certificate chain, managed through "TUF". 
+
+
+[source,bash,subs=attributes+]
+----
+...
+Root status: 
+ {
+        "local": "/home/user/.sigstore/root",
+        "remote": "https://tuf-trusted-artifact-signer.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com",
+        "metadata": {
+...
+----
 
 
 
+xxx
 
+
+[source,bash,role=execute,subs=attributes+]
+----
+git clone https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store.git
+----
 
 
 == Verifying Code Commits 

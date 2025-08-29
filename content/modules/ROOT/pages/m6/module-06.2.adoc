@@ -24,6 +24,8 @@ Which brings us to the core of this chapter:
 
 === Red Hat Dependency Analytics
 
+image::m6/Software Supply Chain Security_dependency_analysis.png[]
+
 *Shifting left security* means to identify risks and vulnerabilities as early in the supply chain as possible - not when we're trying to deploy them, or even worse, _after_ deployment on our production systems. But, to accomplish this, we need to give our developers tools that allow them to identify these problems and make informed decisions. 
 
 One such tool is Red Hat Dependency Analytics, an IDE Plugin available for https://marketplace.visualstudio.com/items?itemName=redhat.fabric8-analytics[VSCode] and https://plugins.jetbrains.com/plugin/12541-red-hat-dependency-analytics[IntelliJ].
