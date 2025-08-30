@@ -74,7 +74,7 @@ image::m6/sigstore_landscapelayout_overview.svg[]
 
 Ok, after all this theory, let's get practical - how can we support our developers by providing them with an easy to use code signing approach without slowing them down? 
 
-First of all - developers use `git`, either directly via command line or indirectly from within their IDE.
+First of all - developers use `git`, either directly via command line or indirectly from within their IDE. With that said, before we start we need to setup out console environment.
 
 NOTE: Since this workshop is targeted at Platform Engineers, we will focus on a quick demonstration here using our workshop environment. Similar to the previous chapter - if you'd like to try it out locally, just expand the section below, but having an IDE and `git` installed is not a prerequisite for this workshop.
 
@@ -84,11 +84,7 @@ NOTE: Since this workshop is targeted at Platform Engineers, we will focus on a 
 include::./module-06.3.1-optional.adoc[]
 ====
 
-=== Developer Activity: Create a branch, git clone
-
-Since we want to sign commits, we need some code to work on. 
-
-As Developers, let's go back to the `parasol-store` app, clone it and create a branch to work on. We will use the `terminal` in the OpenShift Admin UI:
+=== Setup
 
 *1. Open the Terminal*
 
@@ -100,7 +96,7 @@ Since the default terminal doesn't come with the binaries (`cosign`, `gitsign`) 
 
 * downloads the binaries from the cluster itself (the Trusted Artifact Signer Operator installs a basic server with all the binaries needed in matching versions)
 * configures your git environment
-* configures environment variables with the appropriate endpoints for `fulcio`, `rekor` and the OIDC system (in our case the Red Hat Build of Keycloak, but any OIDC system would work)
+* configures environment variables with the appropriate endpoints for `fulcio`, `rekor` and the OIDC system (in our case the https://access.redhat.com/products/red-hat-build-of-keycloak[Red Hat Build of Keycloak], but any OIDC system would work)
 
 Feel free to inspect the script on https://github.com/redhat-tssc-tmm/security-roadshow/blob/main/ocp_terminal_setup.sh[GitHub] before executing it in the terminal session you just opened:
 
@@ -113,7 +109,7 @@ source <(curl -fsSL https://raw.githubusercontent.com/redhat-tssc-tmm/security-r
 
 Before we continue to clone a repository, modify code and sign our commits, let's take a quick look at what the script has done:
 
-Aside from downloading the `cosign` and `gitsign` binaries that are needed (more below), we have configured our git environment to sign each commit via `cosign`:
+Aside from downloading the `cosign` and `gitsign` binaries that are needed (more below), we have configured our git environment to sign each commit via `gitsign`:
 
 [source,bash,role=execute,subs=attributes+]
 ----
@@ -130,7 +126,7 @@ gpg.format=x509
 ...
 ----
 
-This section tells `git` to use `gpg`-style signing (similar to the "traditional" private key based signing), the format (`x509`) and which program (in the `$PATH`) should provide the key/certificate. In our case, this is `gitsign` (that we just downloaded and put into the path).
+This section tells `git` to use `gpg`-style signing (similar to the "traditional" private key based signing), the format (`x509`) and which program should provide the key/certificate. In our case, this is `gitsign` (that we just downloaded and put into the path).
 
 [source,bash,subs=attributes+]
 ----
@@ -146,9 +142,7 @@ This section tells `gitsign` where the various endpoints are, so it can request 
 
 NOTE: We have chose this path for convenience - with this configuration, git will automatically sign every commit (and tag) we create. *For sake of completeness* - we could also just commit without signing and then sign the commit later, using the `cosign` binary directly, using the commit hash.
 
-Before we start signing, there is one noteworthy thing:
-
-The last command the script issued was `cosign initialize` - this downloads the current root certificate from the "TUF" (The Update Framework) endpoint and displays what it downloaded and validity / expiration information. This is the so-called "Trust root" that is needed to verify that a valid signature's certificate is also part of the trusted certificate chain, managed through "TUF". 
+The last command the script issued was `cosign initialize` - this downloads the current root certificate from the "TUF" (The Update Framework) endpoint and displays what it downloaded and validity / expiration information. This is the so-called "Trust Root" that is needed to e.g. verify that a valid signature's certificate is also part of the trusted certificate chain, that the signed timestamp's signature (and thus the timestamp itself) is valid, etc. This is all managed through "TUF" - in other words, you don't have to worry about all that.  
 
 
 [source,bash,subs=attributes+]
@@ -164,16 +158,235 @@ Root status:
 
 
 
-xxx
+=== Developer Activity: Create a branch, git clone
 
+Since we want to sign code commits, we need some code to work on. 
+
+As Developers, let's go back to the `parasol-store` app, clone it and create a branch to work on. If you like, you can go back to https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store[parasol-store on GitLab^], create a branch and copy the `https` URL manually - but we can also do it quickly via commandline:
 
 [source,bash,role=execute,subs=attributes+]
 ----
-git clone https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store.git
+git clone https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store.git 
+cd parasol-store
+git checkout -b new-feature-with-signed-commits
 ----
+
+The result should look like this:
+
+[source,bash,subs=attributes+]
+----
+bash-5.1 ~ $ git clone https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store.git
+cd parasol-store
+git checkout -b new-feature-with-signed-commits
+Cloning into 'parasol-store'...
+remote: Enumerating objects: 414, done.
+remote: Total 414 (delta 0), reused 0 (delta 0), pack-reused 414 (from 1)
+Receiving objects: 100% (414/414), 62.17 KiB | 15.54 MiB/s, done.
+Resolving deltas: 100% (118/118), done.
+Switched to a new branch 'new-feature-with-signed-commits'
+----
+
+=== Developer Activity: Modify code, commit (and sign!)
+
+Now we make a small modification so that we have something that we can commit. Feel free to modify any file (as long as it doesn't break the build later) using `vim` or `nano`.
+
+For sake of simplicity, we'll just add an empty file and then use `git add .` to stage _any_ modification for commit:
+
+[source,bash,role=execute,subs=attributes+]
+----
+touch this-is-an-empty-file.txt
+git add .
+git status
+----
+
+[source,bash,subs=attributes+]
+----
+bash-5.1 ~/parasol-store $ touch this-is-an-empty-file.txt
+git add .
+git status
+On branch new-feature-with-signed-commits
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   this-is-an-empty-file.txt
+----
+
+Now we can commit our change with an appropriate commit message (you can of course modify the commit message if the one below is too bland):
+
+[source,bash,role=execute,subs=attributes+]
+----
+git commit -m "added an empty file to test commit signing"
+----
+
+And here something unexpected happens (if you have used `git` on the commandline before) - you're asked to copy a URL to a browser...  
+
+[source,bash,subs=attributes+]
+----
+bash-5.1 ~/parasol-store $ git commit -m "added an empty file to test commit signing"
+error opening browser: exec: "xdg-open": executable file not found in $PATH
+Go to the following link in a browser:
+
+         https://sso.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com/realms/backstage/protocol/openid-connect/auth?access_type=online&client_id=trusted-artifact-signer&code_challenge=[...]OAJzPGn0p
+Enter verification code: 
+---- 
+
+
+This is because here in the workshop the `gitsign` binary is running in a shell that doesn't have a browser installed (`error opening browser: exec: "xdg-open": executable file not found in $PATH`).  
+
+If you ran this on _your_ machine, it would directly open your favourite browser.
+
+But either way - the point is that you need to prove who you are - by simply logging into e.g. your company SSO. Depending on your SSO (OIDC) system, this could be username and password, as in our example - or a hardware key or whatever you are using on a daily basis to prove that you are who you say you are.
+
+
+So, copy the full URL into a browser window (depending on your browser, you might see "open in new tab" after selecting the full URL in the terminal).
+
+image::m6/gitsign_auth.png[]
+
+Use `dev1` and `{common_password}` to authenticate.
+
+image::m6/gitsign_auth_success.png[]
+
+Now copy the full code (best to use `<ctrl><a>` since the code is longer than the field) and paste it back into your terminal session (and remember, developers don't have to do that unless they are working on a remote ssh session). 
+
+TIP: `gitsign` doesn't echo the password (verification code) - so just paste (`ctrl-shift-v`) and hit enter. If you get an error (`error getting signer: oauth2: "invalid_grant" "Code not valid"`) don't worry, just use the upward arrow to recall the last command and do it again - since you couldn't successfully prove your identity, nothing has been committed yet.
+
+[source,bash,subs=attributes+]
+----
+tlog entry created with index: 0
+[new-feature-with-signed-commits 1b2d5cc] added an empty file to test commit signing
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 this-is-an-empty-file.txt
+----
+
+*WE HAVE SIGNED OUR COMMIT 😃👏*
+
+Now we just need to push it (including the new branch) to our repository:
+
+[source,bash,role=execute,subs=attributes+]
+----
+git push -u origin new-feature-with-signed-commits
+----
+
+[source,bash,subs=attributes+]
+----
+bash-5.1 ~/parasol-store $ git push -u origin new-feature-with-signed-commits    
+Username for 'https://gitlab-gitlab.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com': dev1
+Password for 'https://dev1@gitlab-gitlab.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com': 
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 32 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 1.38 KiB | 1.38 MiB/s, done.
+Total 3 (delta 1), reused 1 (delta 0), pack-reused 0
+remote: 
+remote: To create a merge request for new-feature-with-signed-commits, visit:
+remote:   https://gitlab-gitlab.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com/parasol/parasol-store/-/merge_requests/new?merge_request%5Bsource_branch%5D=new-feature-with-signed-commits
+remote: 
+To https://gitlab-gitlab.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com/parasol/parasol-store.git
+ * [new branch]      new-feature-with-signed-commits -> new-feature-with-signed-commits
+branch 'new-feature-with-signed-commits' set up to track 'origin/new-feature-with-signed-commits'.
+----
+
 
 
 == Verifying Code Commits 
 
+One key use case for signing code commits is to strengthen the integrity of our software supply chain - in other words, making sure that we're building our applications from source code and developers that we can trust.
 
-As outlined before, building
+*_"But I have access controls in place for my `git` system"_*, you might ask.
+
+Yes, that is of course a good practice and highly recommended - *_Access controls_* answer: "Who can push code right now?"  
+
+*_Signed commits_* answer: "Who actually wrote this code, and has it been tampered with since?"
+
+*Why Access Controls Alone Aren't Enough*
+
+* *Credentials Get Compromised*: Developer accounts can be hijacked through phishing, credential stuffing, or malware. When this happens, malicious commits appear completely legitimate from the repository's perspective - they came from an authorized account.
+
+* *The Insider Threat*: A disgruntled employee or compromised insider account can inject malicious code. Without signing, it's nearly impossible to prove later that specific commits weren't actually made by the account owner.
+
+* *Historical Verification*: Access controls only work at the moment of push. Six months later, when auditing code or investigating an incident, you can't verify whether a commit genuinely came from the claimed author or if the repository history has been tampered with.
+
+* *Supply Chain Attestation*: In today's world of software supply chain attacks, customers and auditors increasingly want cryptographic proof of who wrote what code. "Trust us, we have access controls" doesn't meet compliance requirements like SLSA Level 2+ (we'll deal with SLSA later).
+
+*What Commit Signing Adds*
+
+With Sigstore keyless signing specifically, you get:
+
+* *Non-repudiation*: Developers can't deny they wrote specific code, and conversely, they can prove they didn't write malicious commits attributed to them
+* *Tamper Detection*: Any modification to signed commits, even by someone with admin access, breaks the signature
+* *Time-stamped Proof*: Sigstore's transparency log provides immutable evidence of when commits were signed
+* *Identity Binding*: Commits are tied to developer identity (via OIDC), not just to SSH/GPG keys that could be stolen
+
+
+=== Manual verification
+
+Before we augment our pipelines to block unsigned commits, let's look at some manual way to look at the authenticity and metadata associated with a signed code commit.
+
+*1) via GitLab UI* 
+
+* Open the branch we just created in https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store/-/tree/new-feature-with-signed-commits?ref_type=heads[GitLab]
+image:m6/gitlab-signed-commit.png[]
+
+You will notice that
+
+** Even through we authenticated as `dev1` when we pushed the commit - the author is "Wile E. Coyote", who we set as author in your `git config`. So, how do we know if it really was `dev1` instead?
+
+** GitLab by itself recognizes the signature, but can't verify it - hence the `unverified` tag. (However, with the popularity of the sigstore project, the community behind GitLab is working on that - and so are other vendors)
+
+*2) via `git log --show-signature`*
+
+`git log --show-signatures` shows us all git commits, including signature metadata. 
+
+[source,bash,role=execute,subs=attributes+]
+----
+git log --show-signature
+----
+
+[source,bash,subs=attributes+]
+----
+bash-5.1 ~/parasol-store $ git log --show-signature
+commit 61cac444aef9ed40da2c000e66af0953aa4c729d (HEAD -> new-feature-with-signed-commits, origin/new-feature-with-signed-commits)
+tlog index: 1
+gitsign: Signature made using certificate ID 0xcab55164c8a9ff5a43ad228b28e7592c7f6c6a90 | CN=fulcio.hostname,O=Parasol
+gitsign: Good signature from [dev1@rhdemo.com](https://sso.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com/realms/backstage)
+Validated Git signature: true
+Validated Rekor entry: true
+Validated Certificate claims: false
+WARNING: git verify-commit does not verify cert claims. Prefer using `gitsign verify` instead.
+Author: Wile E. Coyote <boom@acme.com>
+Date:   Sat Aug 30 11:36:46 2025 +0000
+
+    added an empty file to test commit signing
+
+----
+
+*3) via `gitsign verify`*
+
+As the output above tells us, `git verify-commit` or the `git log` command verify that the signature is valid - but they don't validate the claims embedded in the certificate for additional security. In our case, the signer identity and the OIDC system that verified the identity:
+
+[source,bash,role=execute,subs=attributes+]
+----
+gitsign verify --certificate-identity dev1@rhdemo.com --certificate-oidc-issuer $OIDC_ISSUER_URL HEAD
+----
+
+[source,bash,subs=attributes+]
+----
+bash-5.1 ~/parasol-store $ gitsign verify --certificate-identity dev1@rhdemo.com --certificate-oidc-issuer $OIDC_ISSUER_URL HEAD
+tlog index: 1
+gitsign: Signature made using certificate ID 0xcab55164c8a9ff5a43ad228b28e7592c7f6c6a90 | CN=fulcio.hostname,O=Parasol
+gitsign: Good signature from [dev1@rhdemo.com](https://sso.apps.cluster-m4r82.m4r82.sandbox56.opentlc.com/realms/backstage)
+Validated Git signature: true
+Validated Rekor entry: true
+Validated Certificate claims: true
+----
+
+*4) via the Transparency Log (`rekor`)*
+
+While mostly being used by the various CLI tools for storing and verifying signing events, you can https://rekor-search-ui-trusted-artifact-signer.{openshift_cluster_ingress_domain}[open the Rekor UI^] and search for signer's emails, uuids - or the index (you have seen entries like `tlog index: 1` during signing and verification. `tlog` is the Transparency Log a.k.a. Rekor)
+
+image::m6/rekorui.png[]
+
+
+
+=== PE Activity: Verifying Signatures in the build pipeline
+
