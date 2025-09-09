@@ -384,9 +384,25 @@ Validated Certificate claims: true
 
 While mostly being used by the various CLI tools for storing and verifying signing events, you can https://rekor-search-ui-trusted-artifact-signer.{openshift_cluster_ingress_domain}[open the Rekor UI^] and search for signer's emails, uuids - or the index (you have seen entries like `tlog index: 1` during signing and verification. `tlog` is the Transparency Log a.k.a. Rekor)
 
-image::m6/rekorui.png[]
+image::m6/rekorui.png[width=50%]
 
 
 
 === PE Activity: Verifying Signatures in the build pipeline
 
+Ok, now that we have seen how developers would sign their commits - it's time to think about to leverage that as a security guardrail:
+
+1.) In xref:m4/module-04.4.adoc[Chapter 4.4], we imported a software template that creates a dev environment for developers so that they can start working on a `parasol-store` feature branch. This template includes a pipeline that builds the feature branch code and patches the ArgoCD deployment to immediately deploy what the developer has just built (see xref:m4/module-04.4.adoc[Chapter 4.5]):
+
+image::m6/parasol-branch-first-pipeline.png[]
+
+How about we added a check if the commit had been signed? We don't want to break the build necessarily, but here's the thing:
+
+* if we are lenient here and tolerate unsigned commits, these commits are part of the commit history.
+* when we're breaking later builds for production images because they contain unsigned commits - the developer will have to go back and sign his commits, which might be cumbersome.
+
+So, let's add that task:
+
+As mentioned above, the pipeline is provisioned by the "*Parasol Store Development*" template - since it is our responsibility as Platform Engineers to continuously evolve those templates based on developer requirements and company policies - we'll change the template:
+
+Open the 
