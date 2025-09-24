@@ -1,6 +1,84 @@
 :imagesdir: ../../assets/images
 
-
-== xxx
-
 include::../style.adoc[]
+
+== Image Scanning
+
+This might come as yesterday's news to you - but from a holistic security view of what we build as Platform Engineers, *Vulnerability Scanning* is still an important part of strengthening the Software Supply Chain's security posture for two reasons:
+
+1) We don't want to allow any image with known vulnerabilities onto our clusters
+
+2) We also want to surface that information as early as possible and make it available to our developers and architects, so they can act on it. 
+
+image:m6/Software Supply Chain Security_image-scanning.png[]
+
+=== Concepts, Quay, ACS et. al.
+
+The concept of scanning an image for vulnerabilities is not new, but *_scanning_* is only the beginning.
+
+Scans generate a list of vulnerabilities, but ideally we want to *_react_* on what was found in our CI - and maybe break the pipeline if what was found is too dangerous to let it continue.
+
+Ideally, this would happen in a flexible, automated fashion - not only during *build* time, but also blocking pods using vulnerable images from being *deployed* (using Admission Controllers). On top of that - we also need to continuously monitor our *runtime*, because new vulnerabilities will also be discovered after the images have made it to our clusters.
+
+These policies (what do I do with the result, how should I react during build, deployment or runtime?) should be manageable in a flexible, best: _Policy as Code_ (GitOps) approach. 
+
+You see, *_scanning_* is just the beginning. 
+
+For your production needs, we would definitely recommend considering products such as https://www.redhat.com/en/technologies/cloud-computing/openshift/advanced-cluster-security-kubernetes[*Red Hat Advanced Cluster Security for Kubernetes*^, window="_blank"] as it provides 
+
+* Vulnerability Scanning across the whole Software Supply Chain (Build, Deploy, Runtime)
+* Admission Controllers
+* Policies as Code
+* Runtime protection by monitoring process execution and network activity
+* Correlation of vulnerabilities to namespaces, running deployments, and images
+* Vulnerability and Risk assessment dashboards
+* Cluster compliance monitoring against industry controls (PCI, NIST, etc) or your own
+* Network connectivity graphs between namespaces, internal and external traffic, network policies
+* Analysis of Kubernetes role-based access control (RBAC) settings to determine user or service account privileges and misconfigurations
+* An API and prebuilt plugins to integrate with DevOps systems, including CI/CD tools, image scanners, sigstore, registries, container runtimes, SIEM solutions, and notification tools
+
+...just to name a few highlights.
+
+This is far beyond the scope of this Platform Engineering workshop - however, there is a specific https://www.redhat.com/de/events/openshift-roadshows/security[*OpenShift Security Roadshow*^, window="_blank"] that goes into detail on how you can secure your Kubernetes / OpenShift platform using Red Hat Advanced Cluster Security for Kubernetes and manage platform compliance.
+
+This is not a product-specific workshop; we are focusing on the *Platform Engineering* concepts. As such, it is important we add the scanning capability to our CI - because we need to make this vulnerability information available to developers and architects as early as possible. We'll add scanning to our CI pipeline - to show you the basic principles, but we will leave it at that.
+
+In this workshop, we will add image scanning using https://www.redhat.com/en/technologies/cloud-computing/quay[Red Hat Quay^, window="_blank"]'s built-in image scanning capability - which is by the way the same scanning engine that Advanced Cluster Security uses.
+
+=== Adding Scans to our pipeline
+
+For this developer build (remember, we are still working in our development branch), we aren't using the "final" image that will ultimately be promoted to higher level stages - but still, we want to surface vulnerabilities, so our developers and architects can react.
+
+We will add a similar task to our pre-merge and post-merge pipelines, to make sure that we do not introduce vulnerabilities by using different base images, for example. 
+However, at this point, we want to simply show the scan results. 
+
+Remember, the earlier a developer gets this information, the sooner he can make an informed decision. ("Shift left"). 
+
+=== Our Development Build Pipeline
+
+As you might have noticed while testing the commit verification with our "*Secure* Parasol Store Development" template - some Vulnerability figures started to appear...
+
+image:m6/DevPipeline_Vulnerabilities.png[]
+ 
+That happened, because we already added a vulnerability scan step to the pipeline that our new template rolls out:
+
+image:m6/DevPipeline_ScanImageTask.png[]
+
+This task uses the Quay Registry image scanning feature and populates specific fields in the Tekton `pipelineRun` that the Tekton {product_name_rhdh} plugin automatically parses - making this information easily accessible to developers.
+
+Developers can also access the "Output" action now (since our task populates it) and follow the URL to the detailed Quay scan results page (login via `quayadmin` / `{common_password}`).
+
+image:m6/DevPipeline_viewoutput.png[]
+image:m6/DevPipeline_output.png[]
+image:m6/DevPipeline_quay_details.png[]
+
+Alteratively, Developers can check the task logs for a detailed list of identified vulnerabilities.
+
+image:m6/DevPipeline_scan_logs.png[]
+
+IMPORTANT: Using Tekton, the Tekton plugin for {product_name_rhdh} and Quay is just an implementation detail, not a requirement. While we definitely recommend ACS (Advanced Cluster Security for Kubernetes) for scans and reports - the important message here is that we (the Platform Engineers) should make this vulnerability information _easily_ accessible to developers, regardless of the CI and scanner we're using.
+
+
+
+
+

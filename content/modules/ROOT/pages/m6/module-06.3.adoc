@@ -388,7 +388,7 @@ image::m6/rekorui.png[width=50%]
 
 
 
-=== PE Activity: Verifying Signatures in the build pipeline
+=== Activity: Verifying Signatures in the build pipeline
 
 Ok, now that we have seen how developers would sign their commits - it's time to think about to leverage that as a security guardrail:
 
@@ -408,9 +408,9 @@ So, let's add that task:
 
 As mentioned above, the pipeline is provisioned by the "*Parasol Store Development*" template - since it is our responsibility as Platform Engineers to continuously evolve those templates based on developer requirements and company policies - we'll do the following:
 
-1) We'll change the pipeline that is rolled out via the *Parasol Store Development* Template to include steps for commit verification
+1) We have prepared a template that adds the commit verification - as Platform Engineers, you could also evolve the existing template and add functionality to it. For this workshop, we'll take the easy path (instead of modifying an existing template).
 
-2) We'll use the branch with our signed commits that we created earlier and instantiate a new development environment with that updated template
+2) We'll use the branch with our signed commits that we created earlier and instantiate a new development environment with that new template
 
 3) We'll add another signed commit and see what happens.
 
@@ -424,59 +424,29 @@ include::../login-pe.adoc[]
 
 NOTE: As noted earlier in the workshop, we are using Tekton (OpenShift Pipelines) here - but that is just an implementation detail. You can use your CI of choice and adapt what we do here. 
 
-=== 1) PE: Updating the template
+=== 1) PE: Adding the new template
 
-. The template that we imported (remember the step "*Register Existing Component*" in xref:m4/module-04.4.adoc[Chapter 4.4]?) is located https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/parasol-store-dev-template[here^, window="gitlab"], with the `template.yaml` linking all the bits & pieces together. Feel free to look around, if you haven't already.
+. We imported the "insecure" template earlier (remember the step "*Register Existing Component*" in xref:m4/module-04.4.adoc[Chapter 4.4]?) - and we'll do the same for the new template: 
 
-==== *1.1) Pipeline Definition*
+. Access your https://backstage-backstage.{openshift_cluster_ingress_domain}/[{product_name_rhdh} instance^, window="rhdh"]. 
+. Click on the image:common/plus-icon.png[width=15px] icon on the top navigation to access the *Create* menu, and choose *Register Existing Component*. (If you don't see the *Register Existing Component* box, you're not logged in as "pe1" or "pe2").
+. Create a Software Template by pasting this template URL into the *URL* textbox 
++
+[source,bash,role=execute,subs="attributes"]
+----
+https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/parasol-store-dev-template-secure/-/blob/main/template.yaml
+----
+. Click on the *Analyze* button followed by clicking the *Import* button to import the template.
+. The Template will appear on the Create screen.
 
-. We'll dive right into the pipeline definition: Click https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/parasol-store-dev-template/-/edit/main/manifests/helm/parasol-store-build/templates/pipeline-build.yaml?ref_type=heads[here to edit it^, window="gitlab"]
 
-. There, you will find a section under `tasks` that is commented. Please uncomment the whole section:
-
-image:m6/template_enable_tasks.png[]
-
-A little further below, in the `build-source` task, please uncomment the `- verify-commit` and comment the `- git-clone`. 
-
-image:m6/template_enable_sequence.png[]
-
-As usual with `yaml` make sure to double-check the indentation... 
-
-[cols="1,1", frame=none, grid=none]
-|===
-| image:m6/template_enabled.png[]| image:m6/indentationaccident.jpeg[width=50%] 
-| image:m6/template_enabled_sequence.png[]| |
-|===
-
-...and give it a meaningful commit message.
-
-==== *1.2) TriggerTemplate Definition*
-
-We have a task (`setup-gitsign-environment`) that needs to gather the TAS (Trusted Artifact Signer) endpoints in the TAS namespace - therefore it needs reader access to that namespace, but the default `pipeline` serviceAccount doesn't have that. We created a serviceAccount with `clusterReader` access, but we don't want to extend that elevated privilege to the whole pipeline. We just assign it to this one task - all others will run with the default access levels.
-
-Click https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/parasol-store-dev-template/-/edit/main/manifests/helm/parasol-store-build/templates/triggertemplate-build.yaml?ref_type=heads[here to edit^, window="gitlab"] the TriggerTemplate:
-
-image:m6/triggertemplate-uncomment.png[]
-
-This is what it should look like:
-
-image:m6/triggertemplate-uncommented.png[]
-
-Now commit it.
-
-What have done now? We have modified the *helm templates* (`parasol-store-dev-template ➡️ manifests ➡️ helm ➡️ parasol-store-build ➡️ templates ➡️ triggertemplate-build.yaml / pipeline-build.yaml` ) that are instantiated when we use the template, as defined in the step `template-gitops-deployment` in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/parasol-store-dev-template/-/blob/main/template.yaml#L62[template.yaml^, window="gitlab"]. 
-
-image:m6/parasol-store-development-template.png[]
-
-IMPORTANT: It's important to understand that a change to a template will *not* change any code, configuration or deployment artifacts of a component that has already been created with an earlier version of the template. That is by design - we don't want to change anything our developers are already using. We could have created a new template instead of changing an existing one. How you want to implement that in _your_ environment is again completely up to you, as it depends on your requirements and company policies for developers.
-
-=== 2) DEV: Using the updated template
+=== 2) DEV: Using the new template
 
 We'll follow the same steps we did in xref:m4/module-04.5.adoc[Chapter 4.5] (working on a feature branch) - but this time, our pipeline will have git commit verification built in! 
 
-Since we already created a `parasol-store` branch (`new-feature-with-signed-commits`) above via commandline and already pushed a signed commit to it - we'll simply use that.
+Since we already created a `parasol-store` branch (`new-feature-with-signed-commits`) above via commandline - we'll simply use that.
 
-NOTE: For details what we're doing and why - go back to xref:m4/module-04.5.adoc[Chapter 4.5] for a detailed explanation. We're now setting up a developer environment, but with the updated template.
+NOTE: For details what we're doing and why - go back to xref:m4/module-04.5.adoc[Chapter 4.5] for a detailed explanation. We're now setting up a developer environment, but with the new template.
 
 IMPORTANT: Creating a new developer environment is a Developer activity, so please login as dev1 (see expandable section below)
 
@@ -490,19 +460,18 @@ include::../login-developer.adoc[]
 
 2) Use the template: 
 
-* Click "Choose" on the "Parasol Store Development" template
+* Click "Choose" on the "*Secure* Parasol Store Development" template
 * enter the `new-feature-with-signed-commits` branch name (since we used that above) and click "next"
 * accept the database defaults on the next page and click "next"
 * review the changes and click "create"
 
 3) Click "Open Component in Catalog" (or click https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-store-new-feature-with-signed-commits/ci[here^, window="rhdh"])
 
-After a few moments, the ArgoCD job will kick off the first pipeline run (`*-init-*`) in your new environment. However, this *fails* because the PipelineRun in the job definition doesn't have the additional serviceAccount that is needed to get all the endpoints.
+After a few moments, the ArgoCD job will kick off the first pipeline run (`*-init-*`) in your new environment. However, the first run after instantiating template will look _exactly_ like the pipeline runs with the other template. Why is that?
 
-image:m6/init-pipeline-failed.png[]
-image:m6/init-pipeline-failed-log.png[]
+At this point in time, we're not using a trigger (like a trigger on a `git push`), but just doing the bare minimum, so a developer has a running deployment in his development environment. Good for quick tests.
 
-NOTE: This is fine, because we're checking if the "pusher" has also signed the commit. When a job triggers the pipeline, there is no `git push` or `git commit` to trigger the pipeline, therefore also no "pusher". This is just one way to implement it - you can verify a number of attributes. If that failed run bothers you, you can go and delete the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/parasol-store-dev-template/-/blob/main/manifests/helm/parasol-store-build/templates/job-trigger-pipeline-run.yaml[job^, window="gitlab"] from the template.
+However, once we actually push our commits, something different happens.
 
 
 === 3) DEV: Sign & Push a commit
@@ -586,7 +555,7 @@ When you click on the `verify-commit` task to see its log, you can see that we c
 
 image:m6/verification-passed.png[]
 
-NOTE: Remember, here we're not checking if the git author signed the commit, but we're checking if the person pushing signed it. However, that is completely up to you. We can also check the "claims" (user and OIDC issuer) of the signature with regular expressions, adding flexibility to your verification. If you want to inspect how this is done, take a look at the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/parasol-store-dev-template/-/blob/main/manifests/helm/parasol-store-build/templates/task-verify-commit.yaml[task-verify-commit.yaml^, window="gitlab"] task. It basically comes down to this one line: `gitsign verify --certificate-identity $(params.email) --certificate-oidc-issuer $OIDC_ISSUER_URL HEAD` where we can change to `--certificate-identity-regexp` and/or `--certificate-oidc-issuer-regexp`, respectively.
+NOTE: Remember, here we're not checking if the git author signed the commit, but we're checking if the person pushing signed it. However, that is completely up to you. We can also check the "claims" (user and OIDC issuer) of the signature with regular expressions, adding flexibility to your verification. If you want to inspect how this is done, take a look at the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/parasol-store-dev-template-secure/-/blob/main/manifests/helm/parasol-store-build/templates/task-verify-commit.yaml[task-verify-commit.yaml^, window="gitlab"] task. It basically comes down to this one line: `gitsign verify --certificate-identity $(params.email) --certificate-oidc-issuer $OIDC_ISSUER_URL HEAD` where we can change to `--certificate-identity-regexp` and/or `--certificate-oidc-issuer-regexp`, respectively.
 
 [source,bash,subs=attributes+]
 ----
