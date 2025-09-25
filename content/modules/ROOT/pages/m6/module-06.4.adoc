@@ -79,6 +79,60 @@ image:m6/DevPipeline_scan_logs.png[]
 IMPORTANT: Using Tekton, the Tekton plugin for {product_name_rhdh} and Quay is just an implementation detail, not a requirement. While we definitely recommend ACS (Advanced Cluster Security for Kubernetes) for scans and reports - the important message here is that we (the Platform Engineers) should make this vulnerability information _easily_ accessible to developers, regardless of the CI and scanner we're using.
 
 
+=== The Outer Loop 
 
+So far, we have enabled our developers to view vulnerability information and to sign (and verify) their commits.
 
+As Platform Engineers, we should also make sure that nothing possibly harmful or untrustworthy reaches higher stages, or even production. With that said, let's add security guardrails to the pipelines that are triggered when we merge our changes back to the *Parasol Store* *`main`* branch:
 
+These pipeline definitions are located in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store-build-manifests[Parasol Store Build Manifests^, window="gitlab"] repository.
+
+NOTE: Changing the build manifests for the Parasol Store Build is a Platform Engineering activity. Therefore, make sure you are logged in as `pe1` or `pe2`. If needed, open the section below for help.
+
+.Click to learn how to login as a Platform Engineer
+[%collapsible]
+====
+include::../login-pe.adoc[]
+====
+
+So, before we (our developer-self) create a merge request for our `parasol-store` branch (`new-feature-with-signed-commits`), let's augment the pre- and post-merge pipelines with security guardrails:
+
+NOTE: To avoid massive copy & paste, we have created a security-augmented pipeline that you just need to activate.
+
+As Platform Engineer, open the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store-build-manifests/-/blob/main/helm/parasol-store-build/templates/eventlistener.yaml?ref_type=heads[Pipeline Eventlistener^, window="gitlab"] - the component listening for webhooks and calling various pipelines based on rules. This is Tekton-specific and will look different based on your CI of choice. The important part is - instead of calling a pipeline that simply checks if code can be built, we are calling a pipeline that also verifies commit signatures and scans the created image.
+
+For the pre-merge pipeline: 
+
+image:m6/pr-open-trigger.png[]
+
+For the post-merge pipeline:
+
+image:m6/pr-merged-trigger.png[]
+
+For the "Open Prod-PR" pipeline:
+
+image:m6/pr-prod-open-trigger.png[]
+
+Once you have committed your changes, you can open the https://rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}/applications/rhdh-gitops/parasol-store-build[Parasol Store Build^, window="gitops"] OpenShift GitOps application syncing the build manifests and manually sync it - or wait a couple of minutes until it automatically syncs.
+
+Press (1) Refresh, then (2) Sync
+
+image:m6/build-manifest-sync.png[]
+
+=== DEV: Merge Pre-Check
+
+Now that we have enabled our security guardrails, we can create a merge request for our branch: 
+
+First, login as a developer (`dev1` / `{common_password}`), then go to your branch in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-store[parasol store^, window="gitlab"] and create a merge request (if you don't see the box suggesting that).
+
+From a GitLab perspective, nothing has changed - a pre-merge verification pipeline has started. 
+
+image:m6/pre-merge-gitlab.png[]
+
+If you open the https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-store/ci[parasol component's CI page^, window="rhdh"] in {product_name_rhdh}, you can see that the `pre-merge-check-secure` pipeline has started (or has already finished).
+
+image:m6/pre-merge-tekton.png[]
+
+IMPORTANT: It should be noted that this example is far from perfect: In a "checking" or "verification" pipeline, a simple vulnerability scan doesn't provide any value. You would need a rule or *policy* that can break the pipeline, if a policy is violated. This is where ACS (Advanced Cluster Security) really shines - policies can not only check for various forms of vulnerabilities (break if number of fixable vulnerabilities exceeds x, break if a specific CVE is in the image, ...) but also for other image contents: Break if a package manager, curl or wget is part of the image (we don't want any "hot-loading").
+
+However (as already noted) this would exceed the scope of this workshop. But please keep in mind that verification should include breaking the pipeline if your criteria are not met.
