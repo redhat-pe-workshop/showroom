@@ -35,6 +35,14 @@ Let's verify that changes to the https://gitlab-gitlab.{openshift_cluster_ingres
 . Select *Edit > Edit single file*. When prompted, login as a Platform Engineer with `pe1` / `{common_password}`
 . Find the YAML surrounded by `--- APP TITLE ---` and uncomment it by highlighting it and pressing `CMD + /` or `CTRL + /`.
 +
+[NOTE]
+====
+If  `CMD + /` or `CTRL + /` doesn't work, you can uncomment the lines by highlighting the appropriate code, choose the function *F1* from your keyboard, and select the option *Remove Line Comment* as shown below.
+
+image:m2/gitlab-f1-uncomment.png[Uncomment options in GitLab]
+====
+. The file should now look like this after uncommenting:
++
 image:m2/gitlab-change-app-title.png[Customizing the Title]
 . Scroll down and enter a commit message `feat: change application title`.
 . Click the *Commit changes* button.
